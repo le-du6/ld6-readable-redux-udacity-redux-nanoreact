@@ -6,8 +6,12 @@
     "react-scripts": "1.0.14"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-beta",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-icons": "^2.2.7",
+    "react-router": "^4.2.0",
+    "reactstrap": "^5.0.0-alpha.3"
   },
   "scripts": {
     "start": "react-scripts start",
