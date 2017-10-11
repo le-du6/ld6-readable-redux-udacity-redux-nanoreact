@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
-import { FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
+import { FaPlus, FaMinus, FaThumbsUp, FaThumbsDown, FaThumbsODown, FaHeart, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 // import Globe from 'react-icons/lib/fa/globe';
 
 // const style = {}
@@ -39,6 +39,7 @@ class App extends Component {
         <h3 className="my-3">
           <FaNewspaperO className="mr-2" />Readable
         </h3>
+        <div className="callout callout-info">Je suis par ici!</div>
         <Row>
           <Col xs="3">
             <Button outline color="primary" className={JCAB}>
@@ -68,7 +69,9 @@ class App extends Component {
               <br />
             </div>
             <ListGroup>
-              <ListGroupItem action className="justify-content-between mb-1">
+
+            <ListGroupItem action className="justify-content-between py-1 mb-2">
+
                 <div>
                   <div>{`Udacity is the best place to learn React `}</div>
                   <small>
@@ -76,25 +79,66 @@ class App extends Component {
                     oct 2017
                   </small>
                 </div>
-                <div className="justify-content-between mb-1">
-                  <span><FaHeartO/></span>
-                  <Button size="sm" className="ml-3" color="primary" outline>
-                    14
-                  </Button>
+
+                <div className="justify-content-between">
+                  <span><FaPlus size="20"/></span>
+                  <Button size="sm" className="mx-3 p-1" color="secondary">01</Button>
+                  <span><FaThumbsODown size="20"/></span>
                 </div>
+
               </ListGroupItem>
 
-              <ListGroupItem action className="justify-content-between">
-                {`Dapibus ac facilisis in `}
-                <Badge className="ml-3" color="primary" pill>
-                  2
-                </Badge>
+              <ListGroupItem action className="justify-content-between py-1 mb-2">
+
+                <div>
+                  <div>{`Udacity is the best place to learn React `}</div>
+                  <small>
+                    by <strong className="text-info">thingtwo </strong>on Tue 24
+                    oct 2017
+                  </small>
+                </div>
+
+                <div className="justify-content-between">
+                  {/* <span><FaPlus size="20"/></span> */}
+                  <Button size="sm" className="mx-3 p-1" color="primary">14</Button>
+                  <span><FaThumbsODown size="20"/></span>
+                </div>
+
               </ListGroupItem>
-              <ListGroupItem action className="justify-content-between">
-                Morbi leo risus{" "}
-                <Badge color="primary" pill>
-                  1
-                </Badge>
+
+              <ListGroupItem action className="justify-content-between py-1 mb-2">
+
+                <div>
+                  <div>{`Udacity is the best place to learn React `}</div>
+                  <small>
+                    by <strong className="text-info">thingtwo </strong>on Tue 24
+                    oct 2017
+                  </small>
+                </div>
+
+                <div className="justify-content-between">
+                  <span><FaPlus size="20"/></span>
+                  <Button size="sm" className="mx-3 p-1" color="secondary">22</Button>
+                  <span><FaThumbsODown size="20"/></span>
+                </div>
+
+              </ListGroupItem>
+              <ListGroupItem action className="justify-content-between py-1 mb-2">
+
+                <div>
+                  <div>{`Udacity is the best place to learn React `}</div>
+                  <small>
+                    by <strong className="text-info">thingtwo </strong>on Tue 24
+                    oct 2017
+                  </small>
+                </div>
+
+                <div className="justify-content-between ">
+                  <Button size="sm" className="mx-3 p-1" color="primary" outline>10</Button>
+                  <span><FaPlus size="20"/></span>
+                  {/* <span><FaThumbsODown size="20"/></span> */}
+                </div>
+
               </ListGroupItem>
             </ListGroup>
           </Col>
