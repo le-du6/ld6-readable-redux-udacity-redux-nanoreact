@@ -16,8 +16,12 @@ const defaultData = {
       {
         name: 'udacity',
         path: 'udacity'
+      },
+      {
+        name: 'react-native',
+        path: 'react-native'
       }
-  ]
+    ]
 }
 
 function getData (token) {

@@ -13,7 +13,7 @@ const itemMenu = ({ name, path }, location) => (
     to={`/${path}`}
     active={location.pathname===`/${path}`}
     className="justify-content-between">
-      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5">23</span>
+      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5">{name.length}</span>
   </ListGroupItem>)
 
 
