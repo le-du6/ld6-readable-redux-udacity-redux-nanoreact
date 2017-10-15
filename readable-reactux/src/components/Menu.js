@@ -2,15 +2,38 @@ import React, { Component } from 'react';
 import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
 import { Route, Link } from "react-router-dom";
-
+import { getCategories } from "../utils/ReadAPI";
 const JCAB = "d-flex justify-content-between align-items-center";
 
+const itemMenu = ({ name, path }, location) => (
+  <ListGroupItem
+    action
+    key={name}
+    tag={Link}
+    to={`/${path}`}
+    active={location.pathname===`/${path}`}
+    className="justify-content-between">
+      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5">23</span>
+  </ListGroupItem>)
+
+
 class Menu extends Component {
-  state = {  }
+  constructor(props) {
+    super(props);
+    this.state = { 
+      categories: []
+    }
+  }
+  componentDidMount () {
+    getCategories().then((categories)=>
+      this.setState({ categories: [...categories] })
+    )
+  }
 
   render() {
     console.log('====================================');
     console.log(this.props.location);
+    console.log(this.state.categories);
     console.log('====================================');
     return (
       <div id="left">
@@ -25,15 +48,7 @@ class Menu extends Component {
           <div><br /></div>
 
           <ListGroup className="">
-            <ListGroupItem active={this.props.location.pathname==="/react"} tag={Link} to="/react" action className="justify-content-between">
-              React<span className="ml-5">23</span>
-            </ListGroupItem>
-            <ListGroupItem action className="justify-content-between">
-              Redux<span className="ml-5">7</span>
-            </ListGroupItem>
-            <ListGroupItem action className="justify-content-between">
-              Udacity<span className="ml-5">12</span>
-            </ListGroupItem>
+            {this.state.categories.map((item)=>itemMenu(item, this.props.location))}
           </ListGroup>
 
         </Col>
