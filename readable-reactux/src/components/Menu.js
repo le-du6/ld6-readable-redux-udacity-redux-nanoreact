@@ -5,7 +5,7 @@ import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
 
 import { connect } from 'react-redux'
-import { getAllCategories, fetchAllCategories } from '../actions'
+import { getAllCategories, fetchAllCategories } from '../actions/actions'
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
@@ -25,21 +25,13 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // categories: []
     }
   }
   componentDidMount () {
     this.props.fetchAllCategories();
-    // getCategories().then((categories)=>
-    //   this.setState({ categories: [...categories] })
-    // )
   }
 
   render() {
-    // console.log('====================================');
-    // console.log(this.props.location);
-    // console.log(this.state.categories);
-    // console.log('====================================');
     return (
       <div id="left">
         <h3 className="my-3">
@@ -53,7 +45,6 @@ class Menu extends Component {
           <div><br /></div>
 
           <ListGroup className="">
-            {/* {this.state.categories.map((item)=>itemMenu(item, this.props.location))} */}
             {this.props.toutesLesCat.map((item)=>itemMenu(item, this.props.location))}
           </ListGroup>
 
