@@ -1,5 +1,6 @@
 import {
-  GET_ALL_CATEGORIES
+  GET_ALL_CATEGORIES,
+  GET_ALL_POSTS
 } from '../actions/actions'
 
 const initialState = {
@@ -11,6 +12,11 @@ function myReducer(state = initialState, action) {
     case GET_ALL_CATEGORIES:
       return Object.assign({}, state, {
         allCategories: action.categories
+      })
+    case GET_ALL_POSTS:
+    console.log(action)
+      return Object.assign({}, state, {
+        allPosts: action.posts
       })
     // case ADD_TODO:
     //   return Object.assign({}, state, {
