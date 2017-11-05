@@ -3,7 +3,8 @@ import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
 import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
-const JCAB = "d-flex justify-content-between align-items-center";
+
+const JCAB = "d-flex justify-content-between align-items-center"
 
 const itemMenu = ({ name, path }, location) => (
   <ListGroupItem
@@ -20,7 +21,7 @@ const itemMenu = ({ name, path }, location) => (
 class Menu extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       categories: []
     }
   }
