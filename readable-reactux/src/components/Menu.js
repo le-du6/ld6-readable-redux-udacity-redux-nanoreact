@@ -4,6 +4,9 @@ import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
 import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
 
+import { connect } from 'react-redux'
+import { getAllCategories, fetchAllCategories } from '../actions'
+
 const JCAB = "d-flex justify-content-between align-items-center"
 
 const itemMenu = ({ name, path }, location) => (
@@ -22,20 +25,21 @@ class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: []
+      // categories: []
     }
   }
   componentDidMount () {
-    getCategories().then((categories)=>
-      this.setState({ categories: [...categories] })
-    )
+    this.props.fetchAllCategories();
+    // getCategories().then((categories)=>
+    //   this.setState({ categories: [...categories] })
+    // )
   }
 
   render() {
-    console.log('====================================');
-    console.log(this.props.location);
-    console.log(this.state.categories);
-    console.log('====================================');
+    // console.log('====================================');
+    // console.log(this.props.location);
+    // console.log(this.state.categories);
+    // console.log('====================================');
     return (
       <div id="left">
         <h3 className="my-3">
@@ -49,7 +53,8 @@ class Menu extends Component {
           <div><br /></div>
 
           <ListGroup className="">
-            {this.state.categories.map((item)=>itemMenu(item, this.props.location))}
+            {/* {this.state.categories.map((item)=>itemMenu(item, this.props.location))} */}
+            {this.props.toutesLesCat.map((item)=>itemMenu(item, this.props.location))}
           </ListGroup>
 
         </Col>
@@ -58,5 +63,15 @@ class Menu extends Component {
   }
 }
 
-export default Menu;
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchAllCategories: (categories) => dispatch(fetchAllCategories(categories)),
+  }
+}
+
+const mapStateToProps = (state, props) => ({
+  toutesLesCat: state.allCategories
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
 

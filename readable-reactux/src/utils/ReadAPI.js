@@ -18,6 +18,9 @@ fetch(`${api}/categories/`, { headers })
   .then(res => res.json())
   .then(data => data.categories)
 
+
+
+
 export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, { headers })
     .then(res => res.json())
