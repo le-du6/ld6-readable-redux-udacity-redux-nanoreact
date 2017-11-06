@@ -4,10 +4,11 @@ import { FaPlus, FaMinus, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalen
 import { Route, Link } from "react-router-dom"
 import Menu from "./components/Menu"
 import TopButtons from "./components/TopButtons";
+import FullPosts from "./components/FullPosts";
 
 const JCAB = "d-flex justify-content-between align-items-center";
 
-const FullPosts = () => <div>FullPosts</div>
+// const FullPosts = () => <div>FullPosts</div>
 
 const User = ({ match }) => {
   return <h1>Hello {match.params.cat}!</h1>
