@@ -27,7 +27,8 @@ class App extends Component {
           <Col className="offset-3">
             <TopButtons/>
             <Route exact path="/" component={FullPosts}/>
-            <Route path="/:cat" component={User}/>
+            <Route path="/:cat" component={User
+            }/>
           </Col>
         </Row>
       </div>

@@ -6,11 +6,11 @@ import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
 
 import { connect } from 'react-redux'
-import { fetchAllCategories, fetchAllPosts } from '../actions/actions'
+import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
-const itemMenu = ({ name, path }, location) => (
+const itemMenu = ({ name, path, count }, location) => (
   <ListGroupItem
     action
     key={name}
@@ -18,7 +18,7 @@ const itemMenu = ({ name, path }, location) => (
     to={`/${path}`}
     active={location.pathname===`/${path}`}
     className="justify-content-between">
-      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5 d-flex align-items-top">{name.length}&nbsp;<MdMessage/></span>
+      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5 d-flex align-items-top">{count}&nbsp;<MdMessage/></span>
   </ListGroupItem>)
 
 
@@ -29,8 +29,9 @@ class Menu extends Component {
     }
   }
   componentDidMount () {
-    this.props.fetchAllCategories();
-    this.props.fetchAllPosts();
+    // this.props.fetchAllCategories();
+    // this.props.fetchAllPosts();
+    this.props.fetchAllCategoriesWPosts();
   }
 
   render() {
@@ -42,7 +43,7 @@ class Menu extends Component {
 
         <Col>
           <Button onClick={() => this.props.history.push("/")}  outline color="primary" className={JCAB}>
-            <FaGlobe size="18" />&nbsp;View all
+            <FaGlobe size="18" />&nbsp;View all&nbsp;{this.props.toutesLesCat.reduce((acc,cat)=>acc+cat.count,0)}&nbsp;<MdMessage/>
           </Button>
           <div><br /></div>
 
@@ -58,13 +59,16 @@ class Menu extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
+    pipo: () => dispatch(pipo()),
     fetchAllCategories: (categories) => dispatch(fetchAllCategories(categories)),
     fetchAllPosts: (posts) => dispatch(fetchAllPosts(posts)),
+    fetchAllCategoriesWPosts: (categoriesWP) => dispatch(fetchAllCategoriesWPosts(categoriesWP)),
+
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  toutesLesCat: state.allCategories
+  toutesLesCat: state.allCategoriesWP
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu);

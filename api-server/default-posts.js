@@ -39,6 +39,26 @@ module.exports = {
     voteScore: 5,
     deleted: false
   },
+  "mis6kqsjhdsqkjugxxtn": {
+    id: 'mis6ugxxtn',
+    timestamp: 1468479767190,
+    title: 'React Native',
+    body: 'Just kidding. It takes more than 10 minutes to learn technology.',
+    author: 'thingone',
+    category: 'react-native',
+    voteScore: 5,
+    deleted: false
+  },
+  "mqqqqq9977HHis6ugxxtn": {
+    id: 'mis6ugxxtn',
+    timestamp: 1468479767190,
+    title: 'React is good',
+    body: 'Just kidding. It takes more than 10 minutes to learn technology.',
+    author: 'thingone',
+    category: 'react',
+    voteScore: 5,
+    deleted: false
+  },
   "cbupnijwga": {
     id: 'cbupnijwga',
     timestamp: 1468479767190,
