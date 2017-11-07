@@ -2,13 +2,15 @@ import {
   PIPO,
   GET_ALL_CATEGORIES,
   GET_ALL_CATEGORIES_W_POSTS,
-  GET_ALL_POSTS
+  GET_ALL_POSTS,
+  GET_COMMENTS
 } from '../actions/actions'
 
 const initialState = {
   allCategories: [],
   allCategoriesWP: [],
-  allPosts: []
+  allPosts: [],
+  allVotes: []
 }
 
 function myReducer(state = initialState, action) {
@@ -30,6 +32,11 @@ function myReducer(state = initialState, action) {
     console.log(action)
       return Object.assign({}, state, {
         allPosts: action.posts
+      })
+    case GET_COMMENTS:
+    console.log(action)
+      return Object.assign({}, state, {
+        Comments: action.comments
       })
     // case ADD_TODO:
     //   return Object.assign({}, state, {

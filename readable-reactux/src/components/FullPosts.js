@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
+import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 // import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
-import { FaPlus, FaMinus, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
+import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
+import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
 
-import { MdMessage } from "react-icons/lib/md"
 import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
 
@@ -12,21 +12,10 @@ import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } fro
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
-const itemMenu = ({ name, path, count }, location) => (
-  <ListGroupItem
-    action
-    key={name}
-    tag={Link}
-    to={`/${path}`}
-    active={location.pathname===`/${path}`}
-    className="justify-content-between">
-      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5 d-flex align-items-top">{count}&nbsp;<MdMessage/></span>
-  </ListGroupItem>)
-
-
 class FullPosts extends Component {
   constructor(props) {
     super(props);
+    // console.log(props)
     this.state = {
     }
   }
@@ -37,24 +26,34 @@ class FullPosts extends Component {
   }
 
   render() {
+    const options = { year: 'numeric', month: 'long', day: 'numeric'};
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
 
     return (
     <ListGroup>
-      {this.props.allPosts.map( ({timestamp, title, author, category, voteScore}, index) =>
+      {this.props.allPosts.sort((p1, p2)=>p2.voteScore-p1.voteScore).map( ({timestamp, title, author, category, voteScore, nbComment}, index) =>
       <ListGroupItem key={index} action className="justify-content-between py-1 mb-2">
         <div>
           <div>{title}</div>
           <span>
-            <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString()}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
+            <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
           </span>
         </div>
-        <div className="d-flex justify-content-between align-items-center">
-          <Button size="lg" className="mx-3 p-1" color="secondary">{voteScore}</Button>
+        <div className="text-muted mr-auto ml-5">
+          {nbComment} <MdQuestionAnswer/>
+        </div>
+        <div className="d-flex justify-content-between align-items-center mr-5">
+          <Button size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
           <span className="d-flex align-items-center flex-column">
             <FaPlus className="mb-1" size="12" />
             <FaMinus className="mt-1" size="12" />
           </span>
+        </div>
+        <div>
+          <ButtonGroup>
+            <Button outline size="sm" color="primary" > <FaEdit/></Button>
+            <Button outline size="sm" color="primary" > <FaTrashO/></Button>
+          </ButtonGroup>
         </div>
       </ListGroupItem>
       )}

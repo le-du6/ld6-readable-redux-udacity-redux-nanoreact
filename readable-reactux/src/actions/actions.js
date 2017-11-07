@@ -1,9 +1,10 @@
-import { getCategories, getPosts } from "../utils/ReadAPI";
+import { getCategories, getPosts, getComments, getPostsId } from "../utils/ReadAPI";
 
 //  action types
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
 export const GET_ALL_CATEGORIES_W_POSTS = 'GET_ALL_CATEGORIES_W_POSTS'
 export const GET_ALL_POSTS = 'GET_ALL_POSTS'
+export const GET_COMMENTS = 'GET_COMMENTS'
 export const PIPO = 'PIPO'
 
 //  action creators
@@ -26,6 +27,11 @@ export const getAllPosts = posts => ({
     posts
   })
 
+export const getAllComments = comments => ({
+    type: GET_COMMENTS,
+    comments
+  })
+
 //  action creators with THUNK middlware
 export const fetchAllCategories = () => dispatch => {
   getCategories()
@@ -38,16 +44,39 @@ export const fetchAllCategoriesWPosts = () => dispatch => {
       getPosts()
         .then(posts => {
           // adding count property to Categories
-          let categoriesWP = categories.map(cat=>Object.assign({}, cat, {count: 0}));
+          let categoriesWP = categories.map(cat=>Object.assign({}, cat, {nbPost: 0}));
           // count how many CAT regarding each POST
-          posts.forEach(p=>categoriesWP.filter(cat=>cat.name===p.category).map(e=>e.count++));
+          posts.forEach(p=>categoriesWP.filter(cat=>cat.name===p.category).map(e=>e.nbPost++));
           // dispatch the new categories Array
           return dispatch(getAllCategoriesWPosts(categoriesWP))
         })
     )
 }
 
+export const fetchComments = (idPost) => dispatch => {
+  getComments(idPost)
+    .then(comments => dispatch(getAllComments(comments)))
+}
+
 export const fetchAllPosts = () => dispatch => {
   getPosts()
-    .then(posts => dispatch(getAllPosts(posts)))
+    .then(posts => {
+      // adding Comments NB count property to posts
+      let postsWC = posts.map(post=>Object.assign({}, post, {nbComment: 0}));
+      // count number of Comments by PostId
+      let requests = postsWC.map(post => {
+          return getComments(post.id).then(comments => {
+            // console.log(post.nbComment, comments.length)
+            post.nbComment = comments.length;
+          })
+        })
+      // dispatch the posts with Comments number Array
+      Promise.all(requests).then(() => {
+        // console.log('finish');
+        return dispatch(getAllPosts(postsWC))
+      });
+
+})
 }
+
+// dispatch(getAllPosts(postsWC))

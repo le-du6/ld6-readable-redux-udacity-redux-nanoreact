@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
-import { MdMessage } from "react-icons/lib/md"
+import { MdMessage, MdRateReview } from "react-icons/lib/md"
 import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
 
@@ -10,7 +10,7 @@ import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } fro
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
-const itemMenu = ({ name, path, count }, location) => (
+const itemMenu = ({ name, path, nbPost }, location) => (
   <ListGroupItem
     action
     key={name}
@@ -18,7 +18,7 @@ const itemMenu = ({ name, path, count }, location) => (
     to={`/${path}`}
     active={location.pathname===`/${path}`}
     className="justify-content-between">
-      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5 d-flex align-items-top">{count}&nbsp;<MdMessage/></span>
+      {name[0].toUpperCase() + name.slice(1)}<span className="ml-5 d-flex align-items-top">{nbPost}&nbsp;<MdMessage/></span>
   </ListGroupItem>)
 
 
@@ -43,7 +43,7 @@ class Menu extends Component {
 
         <Col>
           <Button onClick={() => this.props.history.push("/")}  outline color="primary" className={JCAB}>
-            <FaGlobe size="18" />&nbsp;View all&nbsp;{this.props.toutesLesCat.reduce((acc,cat)=>acc+cat.count,0)}&nbsp;<MdMessage/>
+            <FaGlobe size="18" />&nbsp;View all&nbsp;{this.props.toutesLesCat.reduce((acc,cat)=>acc+cat.nbPost,0)}&nbsp;<MdMessage/>
           </Button>
           <div><br /></div>
 

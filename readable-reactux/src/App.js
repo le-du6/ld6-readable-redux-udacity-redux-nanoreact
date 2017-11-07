@@ -3,8 +3,9 @@ import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaPlus, FaMinus, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { Route, Link } from "react-router-dom"
 import Menu from "./components/Menu"
-import TopButtons from "./components/TopButtons";
-import FullPosts from "./components/FullPosts";
+import TopButtons from "./components/TopButtons"
+import FullPosts from "./components/FullPosts"
+import ListPostsGroup from './components/ListPostsGroup';
 
 const JCAB = "d-flex justify-content-between align-items-center";
 
@@ -25,11 +26,11 @@ class App extends Component {
       <div className="container">
         <Row>
           <Route path="/" component={Menu}/>
-          <Col className="offset-3">
+          {/* <Col className="offset-3"> */}
+          <Col>
             <TopButtons/>
             <Route exact path="/" component={FullPosts}/>
-            <Route path="/:cat" component={User
-            }/>
+            <Route path="/:cat" component={ListPostsGroup}/>
           </Col>
         </Row>
       </div>
