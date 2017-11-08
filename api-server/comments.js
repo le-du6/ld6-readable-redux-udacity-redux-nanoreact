@@ -22,6 +22,106 @@ const defaultData = {
     voteScore: -5,
     deleted: false,
     parentDeleted: false
+  },
+  "qkdjsqjkhdjsqhdkjqhdhsqjkdh": {
+    id: 'qkdjsqjkhdjsqhdkjqhdhsqjkdh',
+    parentId: "8xf0y6ziyjabvozdd253nd",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "qopidqsdisoqi": {
+    id: 'qopidqsdisoqi',
+    parentId: "8xf0y6ziyjabvozdd253nd",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "ckdhjsckjds": {
+    id: 'ckdhjsckjds',
+    parentId: "8xf0y6ziyjabvozdd253nd",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "kjchsdkjchkdjs": {
+    id: 'kjchsdkjchkdjs',
+    parentId: "6ni6ok3ym7mf1p33lnez",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "ciucqcaaa": {
+    id: 'ciucqcaaa',
+    parentId: "6ni6ok3ym7mf1p33lnez",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "8768TG8G": {
+    id: '8768TG8G',
+    parentId: "6ni6ok3ym7mf1p33lnez",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "ckhqdsiuch": {
+    id: 'ckhqdsiuch',
+    parentId: "bofx3tmar8",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "cvbncw": {
+    id: 'cvbncw',
+    parentId: "8xf0y6ziyjabvozdd253nd",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "dpoisq": {
+    id: 'dpoisq',
+    parentId: "v6gkpatseu",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
+  },
+  "sdlsqkj": {
+    id: 'sdlsqkj',
+    parentId: "v6gkpatseu",
+    timestamp: 1469479767190,
+    body: 'Comments. Are. Cool.',
+    author: 'thingone',
+    voteScore: -5,
+    deleted: false,
+    parentDeleted: false
   }
 }
 

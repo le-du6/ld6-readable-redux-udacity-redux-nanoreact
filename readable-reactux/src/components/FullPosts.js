@@ -39,8 +39,10 @@ class FullPosts extends Component {
             <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
           </span>
         </div>
-        <div className="text-muted mr-auto ml-5">
-          {nbComment} <MdQuestionAnswer/>
+        <div className="text-success ml-auto mr-5">
+          {(nbComment !== 0)
+            ? <span>{nbComment} <MdQuestionAnswer/></span>
+            : ''}
         </div>
         <div className="d-flex justify-content-between align-items-center mr-5">
           <Button size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>

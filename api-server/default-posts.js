@@ -14,7 +14,7 @@ module.exports = {
     timestamp: 1468123767190,
     title: 'Learn Redux in 10 minutes!',
     body: 'Just kidding. It takes more than 10 minutes to learn technology.',
-    author: 'thingone',
+    author: '🐔 PtitPoulet',
     category: 'redux',
     voteScore: 14,
     deleted: false
