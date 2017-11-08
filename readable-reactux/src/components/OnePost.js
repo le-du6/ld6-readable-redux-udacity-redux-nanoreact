@@ -12,7 +12,7 @@ import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } fro
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
-class FullPosts extends Component {
+class OnePost extends Component {
   constructor(props) {
     super(props);
     // console.log(props)
@@ -29,7 +29,9 @@ class FullPosts extends Component {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
     const _category = this.props.match.params.category
+    const _params = this.props.match.params
 
+    console.log('Params:', _params)
     console.log('Category path:', _category)
 
     const displayPosts = this.props.allPosts
@@ -57,7 +59,7 @@ class FullPosts extends Component {
         <small className="text-muted">+ 1</small>
         <small className="text-muted">scored</small>
       </span>
-            <Button style={{width: '36px'}} size="lg" className="mx-1 p-1" color="secondary">{voteScore}</Button>
+            <Button style={{width: '30px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
             <span className="d-flex align-items-center flex-column">
               <FaPlus className="mb-1" size="12" />
               <FaMinus className="mt-1" size="12" />
@@ -90,7 +92,7 @@ const mapStateToProps = (state, props) => ({
   allPosts: state.allPosts
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FullPosts);
+export default connect(mapStateToProps, mapDispatchToProps)(OnePost);
 
 
 {/* <ListGroup>

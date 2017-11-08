@@ -5,7 +5,8 @@ import { Route, Link } from "react-router-dom"
 import Menu from "./components/Menu"
 import TopButtons from "./components/TopButtons"
 import FullPosts from "./components/FullPosts"
-import ListPostsGroup from './components/ListPostsGroup';
+import OnePost from "./components/OnePost"
+// import ListPostsGroup from './components/ListPostsGroup';
 
 const JCAB = "d-flex justify-content-between align-items-center";
 
@@ -30,7 +31,8 @@ class App extends Component {
           <Col>
             <TopButtons/>
             <Route exact path="/" component={FullPosts}/>
-            <Route path="/:cat" component={ListPostsGroup}/>
+            <Route exact path="/:category" component={FullPosts}/>
+            <Route exact path="/:category/:post_id" component={OnePost}/>
           </Col>
         </Row>
       </div>

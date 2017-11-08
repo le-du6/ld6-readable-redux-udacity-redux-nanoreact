@@ -62,9 +62,9 @@ export const fetchAllPosts = () => dispatch => {
   getPosts()
     .then(posts => {
       // adding Comments NB count property to posts
-      let postsWC = posts.map(post=>Object.assign({}, post, {nbComment: 0}));
+      const postsWC = posts.map(post=>Object.assign({}, post, {nbComment: 0}));
       // count number of Comments by PostId
-      let requests = postsWC.map(post => {
+      const requests = postsWC.map(post => {
           return getComments(post.id).then(comments => {
             // console.log(post.nbComment, comments.length)
             post.nbComment = comments.length;
