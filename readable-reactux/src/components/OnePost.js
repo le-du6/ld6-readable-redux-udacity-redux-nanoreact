@@ -28,24 +28,31 @@ class OnePost extends Component {
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
-    const _category = this.props.match.params.category
     const _params = this.props.match.params
+    const _category = this.props.match.params.category
+    const _post_id = this.props.match.params.post_id
 
-    console.log('Params:', _params)
-    console.log('Category path:', _category)
+    console.log('OnePost - Params:', _params)
+    console.log('OnePost - category:', _category)
+    console.log('OnePost - post_id:', _post_id)
 
     const displayPosts = this.props.allPosts
-    .filter(post => (_category) ? (post.category === _category) : true)
-    .sort((p1, p2) => p2.voteScore - p1.voteScore)
+    .filter(post => post.id === _post_id)
+    // .sort((p1, p2) => p2.voteScore - p1.voteScore)
+
+    console.log(displayPosts)
 
     return (
-    (displayPosts.length===0) ? <h3>This Category doesn't exist!</h3>
+    (displayPosts.length===0) ? <h3>This Post doesn't exist!</h3>
       :
     <ListGroup>
-      {displayPosts.map( ({timestamp, title, author, category, voteScore, nbComment}, index) =>
-      <ListGroupItem key={index} action className="justify-content-between py-1 mb-2">
+      {displayPosts.map( ({id, timestamp, title, body, author, category, voteScore, nbComment}, index) =>
+      <ListGroupItem onClick={() => this.props.history.push(`/${category}/${id}`)}
+        key={index} className="justify-content-between py-1 mb-2">
         <div>
           <div>{title}</div>
+          <hr />
+          <p>{body}</p>
           <span>
             <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
           </span>
@@ -59,7 +66,7 @@ class OnePost extends Component {
         <small className="text-muted">+ 1</small>
         <small className="text-muted">scored</small>
       </span>
-            <Button style={{width: '30px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
+            <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
             <span className="d-flex align-items-center flex-column">
               <FaPlus className="mb-1" size="12" />
               <FaMinus className="mt-1" size="12" />

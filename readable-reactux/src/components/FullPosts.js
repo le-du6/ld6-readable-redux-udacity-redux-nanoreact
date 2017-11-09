@@ -40,8 +40,9 @@ class FullPosts extends Component {
     (displayPosts.length===0) ? <h3>This Category doesn't exist!</h3>
       :
     <ListGroup>
-      {displayPosts.map( ({timestamp, title, author, category, voteScore, nbComment}, index) =>
-      <ListGroupItem key={index} action className="justify-content-between py-1 mb-2">
+      {displayPosts.map( ({id, timestamp, title, author, category, voteScore, nbComment}, index) =>
+      <ListGroupItem onClick={() => this.props.history.push(`/${category}/${id}`)}
+        key={index} action className="justify-content-between py-1 mb-2">
         <div>
           <div>{title}</div>
           <span>

@@ -16,7 +16,7 @@ const itemMenu = ({ name, path, nbPost }, location) => (
     key={name}
     tag={Link}
     to={`/${path}`}
-    active={location.pathname===`/${path}`}
+    active={(location.pathname.split('/')[1] === `${path}`)}
     className="justify-content-between">
       {name[0].toUpperCase() + name.slice(1)}<span className="ml-5 d-flex align-items-top">{nbPost}&nbsp;<MdMessage/></span>
   </ListGroupItem>)
