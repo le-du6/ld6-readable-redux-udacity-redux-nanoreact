@@ -19,9 +19,9 @@ export const getAllCategories = categories => ({
     categories
   })
 
-export const getCurrentPost = post => ({
-    type: GET_ALL_CATEGORIES,
-    post
+export const getCurrentPost = currentPost => ({
+    type: GET_CURRENT_POST,
+    currentPost
   })
 
 export const getAllCategoriesWPosts = categoriesWP => ({
@@ -40,6 +40,11 @@ export const getAllComments = comments => ({
   })
 
 //  action creators with THUNK middlware
+export const fetchCurrentPost = (postId) => dispatch => {
+  getPostsId(postId)
+    .then(post => dispatch(getCurrentPost(post)))
+}
+
 export const fetchAllCategories = () => dispatch => {
   getCategories()
     .then(categories => dispatch(getAllCategories(categories)))

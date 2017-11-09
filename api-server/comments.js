@@ -85,7 +85,7 @@ const defaultData = {
   },
   "ckhqdsiuch": {
     id: 'ckhqdsiuch',
-    parentId: "bofx3tmar8",
+    parentId: "bofx3tmar83",
     timestamp: 1469479767190,
     body: 'Comments. Are. Cool.',
     author: 'thingone',

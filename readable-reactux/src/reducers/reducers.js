@@ -3,7 +3,8 @@ import {
   GET_ALL_CATEGORIES,
   GET_ALL_CATEGORIES_W_POSTS,
   GET_ALL_POSTS,
-  GET_COMMENTS
+  GET_COMMENTS,
+  GET_CURRENT_POST
 } from '../actions/actions'
 
 const initialState = {
@@ -34,9 +35,14 @@ function myReducer(state = initialState, action) {
         allPosts: action.posts
       })
     case GET_COMMENTS:
-    console.log(action)
+    // console.log(action)
       return Object.assign({}, state, {
-        Comments: action.comments
+        comments: action.comments
+      })
+    case GET_CURRENT_POST:
+    // console.log(action)
+      return Object.assign({}, state, {
+        currentPost: action.currentPost
       })
     // case ADD_TODO:
     //   return Object.assign({}, state, {

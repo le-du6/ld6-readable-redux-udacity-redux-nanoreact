@@ -8,95 +8,124 @@ import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
 
 import { connect } from 'react-redux'
-import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
+import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts, fetchCurrentPost, fetchComments } from '../actions/actions'
+import TopButtons from "./TopButtons"
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
 class OnePost extends Component {
   constructor(props) {
     super(props);
-    // console.log(props)
+    console.log(props)
     this.state = {
     }
   }
-  componentDidMount () {
-    // this.props.fetchAllCategories();
-    this.props.fetchAllPosts();
-    // this.props.fetchAllCategoriesWPosts();
+  componentWillMount () {
+    console.log(new Date().toLocaleString())
+    this.props.fetchCurrentPost(this.props.match.params.post_id);
+    this.props.fetchComments(this.props.match.params.post_id);
   }
 
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
-    const _params = this.props.match.params
-    const _category = this.props.match.params.category
-    const _post_id = this.props.match.params.post_id
+    console.log( 'Onepost: ', this.props.currentPost)
 
-    console.log('OnePost - Params:', _params)
-    console.log('OnePost - category:', _category)
-    console.log('OnePost - post_id:', _post_id)
+    const currentPost = this.props.currentPost || {};
+    const comments = this.props.comments || [];
 
-    const displayPosts = this.props.allPosts
-    .filter(post => post.id === _post_id)
-    // .sort((p1, p2) => p2.voteScore - p1.voteScore)
-
-    console.log(displayPosts)
+    const {id = 0, timestamp = 0, title = "Mon Cul", body = "Ton Gros Cul", author = "Boby", category = "react", voteScore = 1} = currentPost;
+    const nbComment = comments.length || 0 ;
 
     return (
-    (displayPosts.length===0) ? <h3>This Post doesn't exist!</h3>
-      :
-    <ListGroup>
-      {displayPosts.map( ({id, timestamp, title, body, author, category, voteScore, nbComment}, index) =>
-      <ListGroupItem onClick={() => this.props.history.push(`/${category}/${id}`)}
-        key={index} className="justify-content-between py-1 mb-2">
-        <div>
-          <div>{title}</div>
-          <hr />
-          <p>{body}</p>
-          <span>
-            <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
-          </span>
-        </div>
-        <div className="text-success ml-auto mr-5">
-          {(nbComment !== 0) ? <span>{nbComment} <MdQuestionAnswer/></span> : ''}
-        </div>
-        <div style={{width: '150px'}} className="d-flex justify-content-end">
-          <div className="d-flex justify-content-between align-items-center mr-5">
-          <span className="d-flex align-items-center flex-column">
-        <small className="text-muted">+ 1</small>
-        <small className="text-muted">scored</small>
-      </span>
-            <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
+    <div>
+      <ListGroup>
+        <ListGroupItem onClick={() => this.props.history.push(`/${category}/${id}`)}
+          className="justify-content-between py-1 mb-2">
+            <div>{title}</div>
+          <div className="text-success ml-auto mr-5">
+            {(nbComment !== 0) ? <span>{nbComment} <MdQuestionAnswer/></span> : ''}
+          </div>
+          <div style={{width: '150px'}} className="d-flex justify-content-end">
+            <div className="d-flex justify-content-between align-items-center mr-5">
             <span className="d-flex align-items-center flex-column">
-              <FaPlus className="mb-1" size="12" />
-              <FaMinus className="mt-1" size="12" />
+              <small className="text-muted">+ 1</small>
+              <small className="text-muted">scored</small>
+            </span>
+              <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
+              <span className="d-flex align-items-center flex-column">
+                <FaPlus className="mb-1" size="12" />
+                <FaMinus className="mt-1" size="12" />
+              </span>
+            </div>
+          </div>
+          <div>
+            <ButtonGroup>
+              <Button outline size="sm" color="primary" > <FaEdit/></Button>
+              <Button outline size="sm" color="primary" > <FaTrashO/></Button>
+            </ButtonGroup>
+          </div>
+          <div>
+            <hr />
+            <p>{body}</p>
+            <span>
+              <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
             </span>
           </div>
-        </div>
-        <div>
-          <ButtonGroup>
-            <Button outline size="sm" color="primary" > <FaEdit/></Button>
-            <Button outline size="sm" color="primary" > <FaTrashO/></Button>
-          </ButtonGroup>
-        </div>
-      </ListGroupItem>
-      )}
-    </ListGroup>
-  );
+        </ListGroupItem>
+      </ListGroup>
+      <TopButtons/>
+      <ListGroup className="offset-2">
+        {comments.map((comment, index) =>
+          <ListGroupItem
+            key={index}
+            className="justify-content-between py-1 mb-2">
+            <div>
+              <div>{comment.body}</div>
+              <span>
+                <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span className="text-white">{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
+              </span>
+            </div>
+            <div className="text-success ml-auto mr-5">
+              {index + 1}
+            </div>
+            <div style={{width: '150px'}} className="d-flex justify-content-end">
+              <div className="d-flex justify-content-between align-items-center mr-5">
+              <span className="d-flex align-items-center flex-column">
+                <small className="text-muted">+ 1</small>
+                <small className="text-muted">scored</small>
+              </span>
+                <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{comment.voteScore}</Button>
+                <span className="d-flex align-items-center flex-column">
+                  <FaPlus className="mb-1" size="12" />
+                  <FaMinus className="mt-1" size="12" />
+                </span>
+              </div>
+            </div>
+            <div>
+              <ButtonGroup>
+                <Button outline size="sm" color="primary" > <FaEdit/></Button>
+                <Button outline size="sm" color="primary" > <FaTrashO/></Button>
+              </ButtonGroup>
+            </div>
+          </ListGroupItem>
+        )}
+      </ListGroup>
+    </div>
+    )
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    // pipo: () => dispatch(pipo()),
-    // fetchAllCategories: (categories) => dispatch(fetchAllCategories(categories)),
-    fetchAllPosts: (posts) => dispatch(fetchAllPosts(posts)),
-    // fetchAllCategoriesWPosts: (categoriesWP) => dispatch(fetchAllCategoriesWPosts(categoriesWP)),
+    fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
+    fetchComments: (comments) => dispatch(fetchComments(comments)),
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  allPosts: state.allPosts
+  currentPost: state.currentPost,
+  comments: state.comments
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OnePost);
