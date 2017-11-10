@@ -9,7 +9,57 @@ import { getCategories } from "../utils/ReadAPI";
 
 import { connect } from 'react-redux'
 import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts, fetchCurrentPost, fetchComments } from '../actions/actions'
-import TopButtons from "./TopButtons"
+import TopButtonsPost from "./TopButtonsPost"
+import AddCommentForm from "react-jsonschema-form";
+
+const schema = {
+  // POST /comments
+  // USAGE:
+  //   Add a comment to a post
+
+  // PARAMS:
+  //   id: Any unique ID. As with posts, UUID is probably the best here.
+  //   timestamp: timestamp. Get this however you want.
+  //   body: String
+  //   author: String
+  //   parentId: Should match a post id in the database.
+
+  type: "object",
+  required: ["id", 'timestamp', "body", "author", "parentID"],
+  properties: {
+    id: {
+      type: "string",
+      title: "Unik",
+      default: ""
+    },
+    timestamp: {
+      title: "Pick a Date",
+      type: "string",
+    },
+    body: {
+      title: "Your comment here:",
+      type: "string",
+    },
+    author: {
+      type: "string",
+      title: "Author ",
+    },
+    parentId: {
+      type: "string",
+      title: "Post ID"
+    }
+  }
+};
+
+const uiSchema = {
+  body: {
+    'ui:widget': "textarea",
+    "ui:options": {
+      "label": true
+    }
+  },
+};
+
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
@@ -18,12 +68,22 @@ class OnePost extends Component {
     super(props);
     console.log(props)
     this.state = {
+      formObject: {}
     }
+    this.onChangeForm = this.onChangeForm.bind(this);
   }
   componentWillMount () {
-    console.log(new Date().toLocaleString())
+    // console.log(new Date().toLocaleString())
     this.props.fetchCurrentPost(this.props.match.params.post_id);
     this.props.fetchComments(this.props.match.params.post_id);
+  }
+  onChangeForm(x) {
+    console.log('onChangeForm(x)', x.formData);
+    // const o = x.formData;
+    // const {username, fullname} = o;
+    this.setState({
+      formObject: x.formData //{ username,  fullname }
+    });
   }
 
   render() {
@@ -74,7 +134,22 @@ class OnePost extends Component {
           </div>
         </ListGroupItem>
       </ListGroup>
-      <TopButtons/>
+      <TopButtonsPost />
+      <AddCommentForm
+        className="mb-3"
+        schema={schema}
+        formData={this.state.formObject}
+        uiSchema={uiSchema}
+        onChange={this.onChangeForm}
+        onSubmit={this._postUser}
+        onError={() => console.log("errors")}
+        autocomplete="off">
+          <div className="d-flex justify-content-end">
+            <Button type="submit" color="info">Submit</Button>
+              &nbsp;&nbsp;
+            <Button type="button" onClick={this.props.onNewUser}>Cancel</Button>
+          </div>
+      </AddCommentForm>
       <ListGroup className="offset-2">
         {comments.map((comment, index) =>
           <ListGroupItem
