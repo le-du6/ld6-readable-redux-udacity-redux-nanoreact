@@ -33,7 +33,16 @@ fetch(`${api}/posts/${postId}/comments`, { headers })
   .then(res => res.json())
   .then(data => data)
 
-
+export const postComment = (newComment) =>
+  fetch(`${api}/comments`, {
+    method: 'POST',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newComment)
+  }).then(res => res.json())
+    .then(data => data)
 
 // export const get = (bookId) =>
 //   fetch(`${api}/books/${bookId}`, { headers })
@@ -55,13 +64,4 @@ fetch(`${api}/posts/${postId}/comments`, { headers })
 //     body: JSON.stringify({ shelf })
 //   }).then(res => res.json())
 
-// export const search = (query, maxResults) =>
-//   fetch(`${api}/search`, {
-//     method: 'POST',
-//     headers: {
-//       ...headers,
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({ query, maxResults })
-//   }).then(res => res.json())
-//     .then(data => data.books)
+

@@ -29,8 +29,6 @@ class Menu extends Component {
     }
   }
   componentDidMount () {
-    // this.props.fetchAllCategories();
-    // this.props.fetchAllPosts();
     this.props.fetchAllCategoriesWPosts();
   }
 
@@ -62,7 +60,6 @@ class Menu extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    pipo: () => dispatch(pipo()),
     fetchAllCategories: (categories) => dispatch(fetchAllCategories(categories)),
     fetchAllPosts: (posts) => dispatch(fetchAllPosts(posts)),
     fetchAllCategoriesWPosts: (categoriesWP) => dispatch(fetchAllCategoriesWPosts(categoriesWP)),

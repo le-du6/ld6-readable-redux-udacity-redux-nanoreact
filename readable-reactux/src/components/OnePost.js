@@ -3,15 +3,20 @@ import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "
 // import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
-import shortid from 'shortid'
 
 import { Route, Link } from "react-router-dom";
-import { getCategories } from "../utils/ReadAPI";
-
 import { connect } from 'react-redux'
-import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts, fetchCurrentPost, fetchComments } from '../actions/actions'
-import TopButtonsPost from "./TopButtonsPost"
 import AddCommentForm from "react-jsonschema-form";
+import TopButtonsPost from "./TopButtonsPost"
+import shortid from 'shortid'
+
+import {
+  ac_postComment,
+  fetchAllCategories,
+  fetchAllCategoriesWPosts,
+  fetchAllPosts,
+  fetchCurrentPost,
+  fetchComments } from '../actions/actions'
 
 const schema = {
   type: "object",
@@ -76,6 +81,9 @@ class OnePost extends Component {
     // console.log(Date.parse(this.state.formObject.date))
     this.setState({
       formObject: Object.assign({}, this.state.formObject, { timestamp: Date.parse(this.state.formObject.date)})
+    }, () => {
+      console.log(JSON.stringify(this.state.formObject));
+      this.props.ac_postComment(this.state.formObject)
     })
   }
 
@@ -188,6 +196,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
     fetchComments: (comments) => dispatch(fetchComments(comments)),
+    ac_postComment: (comment) => dispatch(ac_postComment(comment)),
   }
 }
 

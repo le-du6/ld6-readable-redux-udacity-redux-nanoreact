@@ -1,4 +1,4 @@
-import { getCategories, getPosts, getComments, getPostsId } from "../utils/ReadAPI";
+import { getCategories, getPosts, getComments, getPostsId, postComment } from "../utils/ReadAPI";
 
 //  action types
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
@@ -6,12 +6,12 @@ export const GET_ALL_CATEGORIES_W_POSTS = 'GET_ALL_CATEGORIES_W_POSTS'
 export const GET_ALL_POSTS = 'GET_ALL_POSTS'
 export const GET_COMMENTS = 'GET_COMMENTS'
 export const GET_CURRENT_POST = 'GET_CURRENT_POST'
-export const PIPO = 'PIPO'
+export const POST_NEW_COMMENT = 'POST_NEW_COMMENT'
 
 //  action creators
-export const pipo = () => ({
-    type: PIPO,
-    inc: 1
+export const postNewComment = newComment => ({
+    type: POST_NEW_COMMENT,
+    newComment
   })
 
 export const getAllCategories = categories => ({
@@ -40,6 +40,11 @@ export const getAllComments = comments => ({
   })
 
 //  action creators with THUNK middlware
+export const ac_postComment = (comment) => dispatch => {
+  postComment(comment)
+    .then(newComment => dispatch(postNewComment(newComment)))
+}
+
 export const fetchCurrentPost = (postId) => dispatch => {
   getPostsId(postId)
     .then(post => dispatch(getCurrentPost(post)))

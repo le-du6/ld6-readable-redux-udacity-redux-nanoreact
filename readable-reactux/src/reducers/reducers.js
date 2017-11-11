@@ -4,7 +4,8 @@ import {
   GET_ALL_CATEGORIES_W_POSTS,
   GET_ALL_POSTS,
   GET_COMMENTS,
-  GET_CURRENT_POST
+  GET_CURRENT_POST,
+  POST_NEW_COMMENT
 } from '../actions/actions'
 
 const initialState = {
@@ -16,10 +17,8 @@ const initialState = {
 
 function myReducer(state = initialState, action) {
   switch (action.type) {
-    case PIPO:
-      return Object.assign({}, state, {
-        allCategoriesWP: state.allCategoriesWP.map(x => Object.assign({}, x, {count: x.count+action.inc}))
-      })
+    case POST_NEW_COMMENT:
+      return state
     case GET_ALL_CATEGORIES:
       return Object.assign({}, state, {
         allCategories: action.categories
