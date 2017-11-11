@@ -3,6 +3,7 @@ import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "
 // import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
+import shortid from 'shortid'
 
 import { Route, Link } from "react-router-dom";
 import { getCategories } from "../utils/ReadAPI";
@@ -13,41 +14,22 @@ import TopButtonsPost from "./TopButtonsPost"
 import AddCommentForm from "react-jsonschema-form";
 
 const schema = {
-  // POST /comments
-  // USAGE:
-  //   Add a comment to a post
-
-  // PARAMS:
-  //   id: Any unique ID. As with posts, UUID is probably the best here.
-  //   timestamp: timestamp. Get this however you want.
-  //   body: String
-  //   author: String
-  //   parentId: Should match a post id in the database.
-
   type: "object",
-  required: ["id", 'timestamp', "body", "author", "parentID"],
+  required: ["body", "author", "date"],
   properties: {
-    id: {
-      type: "string",
-      title: "Unik",
-      default: ""
-    },
-    timestamp: {
-      title: "Pick a Date",
-      type: "string",
-    },
     body: {
-      title: "Your comment here:",
+      title: "Your comment here ",
       type: "string",
     },
     author: {
+      title: "Your Name ",
       type: "string",
-      title: "Author ",
     },
-    parentId: {
-      type: "string",
-      title: "Post ID"
-    }
+    date: {
+      title: "Date",
+      "type": "string",
+      "format": "date",
+    },
   }
 };
 
@@ -60,7 +42,6 @@ const uiSchema = {
   },
 };
 
-
 const JCAB = "d-flex justify-content-between align-items-center"
 
 class OnePost extends Component {
@@ -68,28 +49,40 @@ class OnePost extends Component {
     super(props);
     console.log(props)
     this.state = {
-      formObject: {}
+      formObject: {
+        timestamp: 0,
+        author: "",
+        body: "",
+        date: new Date().toLocaleDateString().split('/').reverse().join('-'),
+        id: shortid.generate(),
+        parentId: this.props.match.params.post_id,
+      }
     }
     this.onChangeForm = this.onChangeForm.bind(this);
+    this._postComment = this._postComment.bind(this);
   }
   componentWillMount () {
-    // console.log(new Date().toLocaleString())
     this.props.fetchCurrentPost(this.props.match.params.post_id);
     this.props.fetchComments(this.props.match.params.post_id);
   }
   onChangeForm(x) {
     console.log('onChangeForm(x)', x.formData);
-    // const o = x.formData;
-    // const {username, fullname} = o;
     this.setState({
-      formObject: x.formData //{ username,  fullname }
+      formObject: x.formData
     });
+  }
+  _postComment(){
+    // const [y, m, d] = this.state.formObject.date.split('-')
+    // console.log(Date.parse(this.state.formObject.date))
+    this.setState({
+      formObject: Object.assign({}, this.state.formObject, { timestamp: Date.parse(this.state.formObject.date)})
+    })
   }
 
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
-    console.log( 'Onepost: ', this.props.currentPost)
+    // console.log( 'Onepost: ', this.props.currentPost)
 
     const currentPost = this.props.currentPost || {};
     const comments = this.props.comments || [];
@@ -136,12 +129,12 @@ class OnePost extends Component {
       </ListGroup>
       <TopButtonsPost />
       <AddCommentForm
-        className="mb-3"
+        className="mb-3 offset-3 col-6"
         schema={schema}
         formData={this.state.formObject}
         uiSchema={uiSchema}
         onChange={this.onChangeForm}
-        onSubmit={this._postUser}
+        onSubmit={this._postComment}
         onError={() => console.log("errors")}
         autocomplete="off">
           <div className="d-flex justify-content-end">
