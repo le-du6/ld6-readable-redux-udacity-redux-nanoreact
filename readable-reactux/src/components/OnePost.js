@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import { Route, Link } from "react-router-dom";
+import { connect } from 'react-redux'
+
 import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
-// import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
 
-import { Route, Link } from "react-router-dom";
-import { connect } from 'react-redux'
 import AddCommentForm from "react-jsonschema-form";
 import TopButtonsPost from "./TopButtonsPost"
-import { ShowPost } from './ShowPost';
+import { ShowDetailPost } from './ShowDetailPost';
 import shortid from 'shortid'
 
 import {
@@ -55,7 +55,7 @@ class OnePost extends Component {
     super(props);
     console.log(props)
     this.state = {
-      formObject: {
+      newComment: {
         timestamp: 0,
         author: "",
         body: "",
@@ -74,21 +74,23 @@ class OnePost extends Component {
   onChangeForm(x) {
     console.log('onChangeForm(x)', x.formData);
     this.setState({
-      formObject: x.formData
+      newComment: x.formData
     });
   }
   _postComment(){
     this.setState({
-        formObject: Object.assign({}, this.state.formObject, { timestamp: Date.parse(this.state.formObject.date)})
+        newComment: Object.assign({}, this.state.newComment, { timestamp: Date.parse(this.state.newComment.date)})
       }, () => {
-          console.log(JSON.stringify(this.state.formObject));
-          this.props.ac_postComment(this.state.formObject)
+          console.log(JSON.stringify(this.state.newComment))
+          this.props.ac_postComment(this.state.newComment)
+          this.props.fetchComments(this.props.match.params.post_id);
+          // this.props.history.push(this.props.location.pathname)
     })
   }
 
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
-    const _Capitalize = (string = "") => string[0].toUpperCase() + string.slice(1)
+    const _Capitalize = (string = "V") => string[0].toUpperCase() + string.slice(1)
     const currentPost = this.props.currentPost
     const category = ((currentPost===undefined) || currentPost.error) ? "" : currentPost.category
     const comments = this.props.comments || []
@@ -98,12 +100,12 @@ class OnePost extends Component {
     <div>
       {((currentPost===undefined) || currentPost.error)
         ? <div>This post doesn't exist</div>
-        : <ShowPost {...this.props} nbComment={nbComment}/>}
+        : <ShowDetailPost {...this.props} nbComment={nbComment}/>}
       <TopButtonsPost />
       <AddCommentForm
         className="mb-3 offset-3 col-6"
         schema={schema}
-        formData={this.state.formObject}
+        formData={this.state.newComment}
         uiSchema={uiSchema}
         onChange={this.onChangeForm}
         onSubmit={this._postComment}
