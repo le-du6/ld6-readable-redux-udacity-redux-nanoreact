@@ -8,6 +8,7 @@ import { Route, Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import AddCommentForm from "react-jsonschema-form";
 import TopButtonsPost from "./TopButtonsPost"
+import { ShowPost } from './ShowPost';
 import shortid from 'shortid'
 
 import {
@@ -77,64 +78,27 @@ class OnePost extends Component {
     });
   }
   _postComment(){
-    // const [y, m, d] = this.state.formObject.date.split('-')
-    // console.log(Date.parse(this.state.formObject.date))
     this.setState({
-      formObject: Object.assign({}, this.state.formObject, { timestamp: Date.parse(this.state.formObject.date)})
-    }, () => {
-      console.log(JSON.stringify(this.state.formObject));
-      this.props.ac_postComment(this.state.formObject)
+        formObject: Object.assign({}, this.state.formObject, { timestamp: Date.parse(this.state.formObject.date)})
+      }, () => {
+          console.log(JSON.stringify(this.state.formObject));
+          this.props.ac_postComment(this.state.formObject)
     })
   }
 
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
-    const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
-    // console.log( 'Onepost: ', this.props.currentPost)
-
-    const currentPost = this.props.currentPost || {};
-    const comments = this.props.comments || [];
-
-    const {id = 0, timestamp = 0, title = "Mon Cul", body = "Ton Gros Cul", author = "Boby", category = "react", voteScore = 1} = currentPost;
-    const nbComment = comments.length || 0 ;
+    const _Capitalize = (string = "") => string[0].toUpperCase() + string.slice(1)
+    const currentPost = this.props.currentPost
+    const category = ((currentPost===undefined) || currentPost.error) ? "" : currentPost.category
+    const comments = this.props.comments || []
+    const nbComment = comments.length || 0
 
     return (
     <div>
-      <ListGroup>
-        <ListGroupItem onClick={() => this.props.history.push(`/${category}/${id}`)}
-          className="justify-content-between py-1 mb-2">
-            <div>{title}</div>
-          <div className="text-success ml-auto mr-5">
-            {(nbComment !== 0) ? <span>{nbComment} <MdQuestionAnswer/></span> : ''}
-          </div>
-          <div style={{width: '150px'}} className="d-flex justify-content-end">
-            <div className="d-flex justify-content-between align-items-center mr-5">
-            <span className="d-flex align-items-center flex-column">
-              <small className="text-muted">+ 1</small>
-              <small className="text-muted">scored</small>
-            </span>
-              <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
-              <span className="d-flex align-items-center flex-column">
-                <FaPlus className="mb-1" size="12" />
-                <FaMinus className="mt-1" size="12" />
-              </span>
-            </div>
-          </div>
-          <div>
-            <ButtonGroup>
-              <Button outline size="sm" color="primary" > <FaEdit/></Button>
-              <Button outline size="sm" color="primary" > <FaTrashO/></Button>
-            </ButtonGroup>
-          </div>
-          <div>
-            <hr />
-            <p>{body}</p>
-            <span>
-              <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
-            </span>
-          </div>
-        </ListGroupItem>
-      </ListGroup>
+      {((currentPost===undefined) || currentPost.error)
+        ? <div>This post doesn't exist</div>
+        : <ShowPost {...this.props} nbComment={nbComment}/>}
       <TopButtonsPost />
       <AddCommentForm
         className="mb-3 offset-3 col-6"
@@ -152,7 +116,7 @@ class OnePost extends Component {
           </div>
       </AddCommentForm>
       <ListGroup className="offset-2">
-        {comments.map((comment, index) =>
+        {comments.sort((a,b)=>b.timestamp-a.timestamp).map((comment, index) =>
           <ListGroupItem
             key={index}
             className="justify-content-between py-1 mb-2">
