@@ -50,8 +50,9 @@ const JCAB = "d-flex justify-content-between align-items-center"
 class OnePost extends Component {
   constructor(props) {
     super(props);
-    // console.log(props)
+    console.log("from OnePost: ",props)
     this.state = {
+      isOpenForm: -1,
       newComment: {
         timestamp: 0,
         author: "",
@@ -63,6 +64,7 @@ class OnePost extends Component {
     }
     this.onChangeForm = this.onChangeForm.bind(this);
     this._postComment = this._postComment.bind(this);
+    this._changeIsOpenForm = this._changeIsOpenForm.bind(this);
   }
   componentWillMount () {
     this.props.fetchCurrentPost(this.props.match.params.post_id);
@@ -84,10 +86,17 @@ class OnePost extends Component {
     })
   }
 
+  _changeIsOpenForm(index) {
+    (this.state.isOpenForm === -1 || this.state.isOpenForm !== index)
+    ? this.setState({isOpenForm: index}, console.log(this.state.isOpenForm))
+    : this.setState({isOpenForm: -1}, console.log(this.state.isOpenForm))
+  }
+
   render() {
     const postId = this.props.match.params.post_id
     const currentPost = this.props.currentPost
-    const category = ((currentPost===undefined) || currentPost.error) ? "" : currentPost.category
+    // const category = ((currentPost===undefined) || currentPost.error) ? "" : currentPost.category
+    const category = this.props.match.params.category
     const comments = this.props.comments || []
     const nbComment = comments.length || 0
 
@@ -99,7 +108,9 @@ class OnePost extends Component {
       <TopButtonsPost />
       <ListGroup className="offset-2">
         {comments.sort((a,b)=>b.timestamp - a.timestamp).map((comment, index) => {
-        return <ShowDetailComment { ...{postId, comment, index, category} } />})
+          let isOpen = this.state.isOpenForm;
+          const changeIsOpenForm = this._changeIsOpenForm;
+        return <ShowDetailComment key={index} { ...{postId, comment, index, category, isOpen, changeIsOpenForm} } />})
         }
       </ListGroup>
     </div>

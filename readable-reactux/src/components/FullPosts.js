@@ -20,15 +20,13 @@ class FullPosts extends Component {
     }
   }
   componentDidMount () {
-    // this.props.fetchAllCategories();
     this.props.fetchAllPosts();
-    // this.props.fetchAllCategoriesWPosts();
   }
 
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
-    const _category = this.props.match.params.category
+    const _category = this.props.match.params.cat
 
     console.log('Category path:', _category)
 

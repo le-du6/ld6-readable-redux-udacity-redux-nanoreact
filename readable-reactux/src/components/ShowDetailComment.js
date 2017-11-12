@@ -5,24 +5,26 @@ import { FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
 import AddCommentForm from "react-jsonschema-form";
 import shortid from 'shortid'
 import {
-  ac_postComment,
   fetchAllCategories,
   fetchAllCategoriesWPosts,
   fetchAllPosts,
   fetchCurrentPost,
-  fetchComments } from '../actions/actions'
+  fetchComments,
+  ac_postComment,
+  ac_updateComment,
+  ac_deleteComment } from '../actions/actions'
 
 
 const schema = {
   type: "object",
-  required: ["body", "author", "date"],
+  required: ["body", "date"],
   properties: {
     body: {
-      title: "Your comment here ",
+      title: "Modify your comment here ",
       type: "string",
     },
     date: {
-      title: "Date",
+      title: "Modify the date here ",
       "type": "string",
       "format": "date",
     },
@@ -41,32 +43,45 @@ const _Capitalize = (string = "v") => string[0].toUpperCase() + string.slice(1)
 class ShowDetailComment extends Component {
 constructor(props) {
   super(props);
-  // console.log(props)
   this.state = {
-    isOpenForm: false,
-    newComment: {
-      timestamp: 0,
-      author: "",
-      body: "",
-      date: new Date().toLocaleDateString().split('/').reverse().join('-'),
-      id: shortid.generate(),
-      parentId: this.props.postId,
+    updateComment: {
+      timestamp: this.props.comment.timestamp,
+      body: this.props.comment.body,
+      date: new Date(this.props.comment.timestamp).toLocaleDateString().split('/').reverse().join('-'),
     }
   }
-  // this.onChangeForm = this.onChangeForm.bind(this);
-  // this._postComment = this._postComment.bind(this);
+  this._onUpdateComment = this._onUpdateComment.bind(this)
+  this._updateComment = this._updateComment.bind(this)
+  this._deleteComment = this._deleteComment.bind(this);
 }
 componentWillMount () {
-  // this.props.fetchCurrentPost(this.props.match.params.post_id);
-  // this.props.fetchComments(this.props.match.params.post_id);
 }
-
+_onUpdateComment(x) {
+  // console.log('onChangeForm(x)', x.formData)
+  this.setState({
+    updateComment: x.formData
+  });
+}
+_updateComment(x) {
+  // console.log(this.props.comment.id, this.state.updateComment)
+  this.props.changeIsOpenForm(-1)
+  this.props.ac_updateComment(this.props.comment.id, this.state.updateComment)
+  this.props.fetchComments(this.props.postId)
+}
+_deleteComment() {
+  this.props.changeIsOpenForm(-1)
+  this.props.ac_deleteComment(this.props.comment.id)
+  this.props.fetchComments(this.props.postId)
+}
 render() {
-  const { comment, index, category } = this.props
-  return (<div>
+  const { comment, index, category, isOpen, changeIsOpenForm } = this.props
+
+  console.log(this.props.category)
+
+  return (
+  <div>
       <ListGroupItem
-        key={index}
-        className="justify-content-between py-1 mb-2">
+        className={`justify-content-between py-1 mb-2 ${(isOpen === index) ? 'bg-warning' : null}`}>
         <div>
           <div>{comment.body}</div>
           <span>
@@ -92,48 +107,49 @@ render() {
         <div>
           <ButtonGroup>
             <Button
-              onClick={()=>null}
+              onClick={(e)=>changeIsOpenForm(index)}
               outline size="sm" color="primary" > <FaEdit/></Button>
-            <Button outline size="sm" color="primary" > <FaTrashO/></Button>
+            <Button
+              onClick={(e)=>this._deleteComment()}
+              outline size="sm" color="primary" > <FaTrashO/></Button>
           </ButtonGroup>
         </div>
       </ListGroupItem>
       <Collapse
-        isOpen={this.state.isOpenForm}>
+        isOpen={(isOpen === index)}>
         <AddCommentForm
           className="mb-3 offset-3 col-6"
           schema={schema}
-          formData={this.state.newComment}
+          formData={this.state.updateComment}
           uiSchema={uiSchema}
-          onChange={this.onChangeForm}
-          onSubmit={this._postComment}
+          onChange={this._onUpdateComment}
+          onSubmit={this._updateComment}
           onError={() => console.log("errors")}
           autocomplete="off">
             <div className="d-flex justify-content-end">
-              <Button type="submit" color="info">Confirm</Button>
+              <Button
+                onClick={(e)=>this._updateComment(e)}
+                type="submit" color="warning">Confirm</Button>
                 &nbsp;&nbsp;
-              <Button type="button" onClick={this.props.onNewUser}>Cancel</Button>
+              <Button
+                onClick={(e)=>changeIsOpenForm(index)}
+                type="button">Cancel</Button>
             </div>
       </AddCommentForm>
     </Collapse>
-    </div>
-    )
-}
-}
+</div> ) } }
 
 function mapDispatchToProps(dispatch) {
   return {
     // fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
     fetchComments: (comments) => dispatch(fetchComments(comments)),
-    // ac_postComment: (comment) => dispatch(ac_postComment(comment)),
+    ac_updateComment: (idC, comment) => dispatch(ac_updateComment(idC, comment)),
+    ac_deleteComment: (idC) => dispatch(ac_deleteComment(idC)),
   }
 }
-
 const mapStateToProps = (state, props) => ({
-  // currentPost: state.currentPost,
   comments: state.comments
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(ShowDetailComment)
 
 {/* <ListGroup>

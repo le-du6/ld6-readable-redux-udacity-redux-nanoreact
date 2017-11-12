@@ -31,7 +31,7 @@ class App extends Component {
           <Col>
             <TopButtons/>
             <Route exact path="/" component={FullPosts}/>
-            <Route exact path="/:category" component={FullPosts}/>
+            <Route exact path="/:cat" component={FullPosts}/>
             <Route exact path="/:category/:post_id" component={OnePost}/>
           </Col>
         </Row>

@@ -44,6 +44,26 @@ export const postComment = (newComment) =>
   }).then(res => res.json())
     .then(data => data)
 
+export const putComment = (commentId, updateComment) =>
+fetch(`${api}/comments/${commentId}`, {
+  method: 'PUT',
+  headers: {
+    ...headers,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(updateComment)
+}).then(res => res.json())
+  .then(data => data)
+
+export const delComment = (commentId) =>
+fetch(`${api}/comments/${commentId}`, {
+  method: 'DELETE',
+  headers: {
+    ...headers,
+  }
+}).then(res => res.json())
+  .then(data => data)
+
 // export const get = (bookId) =>
 //   fetch(`${api}/books/${bookId}`, { headers })
 //     .then(res => res.json())
