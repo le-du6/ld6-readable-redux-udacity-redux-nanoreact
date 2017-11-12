@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Collapse, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Collapse, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap";
 import { FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
 import AddCommentForm from "react-jsonschema-form";
 import shortid from 'shortid'
@@ -44,6 +44,7 @@ class ShowDetailComment extends Component {
 constructor(props) {
   super(props);
   this.state = {
+    isDeleteModal: false,
     updateComment: {
       timestamp: this.props.comment.timestamp,
       body: this.props.comment.body,
@@ -52,15 +53,28 @@ constructor(props) {
   }
   this._onUpdateComment = this._onUpdateComment.bind(this)
   this._updateComment = this._updateComment.bind(this)
-  this._deleteComment = this._deleteComment.bind(this);
+  this._deleteComment = this._deleteComment.bind(this)
+  this._updateStateForUpdate = this._updateStateForUpdate.bind(this)
+  this._toggle = this._toggle.bind(this);
 }
-componentWillMount () {
+_toggle() {
+  this.setState({
+    isDeleteModal: !this.state.isDeleteModal
+  });
 }
 _onUpdateComment(x) {
-  // console.log('onChangeForm(x)', x.formData)
   this.setState({
     updateComment: x.formData
   });
+}
+_updateStateForUpdate() {
+  this.setState({
+    updateComment: {
+      timestamp: this.props.comment.timestamp,
+      body: this.props.comment.body,
+      date: new Date(this.props.comment.timestamp).toLocaleDateString().split('/').reverse().join('-'),
+    }})
+  this.props.changeIsOpenForm(this.props.index)
 }
 _updateComment() {
   this.props.ac_updateComment(this.props.comment.id, this.state.updateComment, this.props.postId)
@@ -69,6 +83,7 @@ _updateComment() {
 _deleteComment() {
     this.props.ac_deleteComment(this.props.comment.id, this.props.postId)
     this.props.changeIsOpenForm(-1)
+    this._toggle()
 }
 render() {
   const { comment, index, category, isOpen, changeIsOpenForm } = this.props
@@ -77,6 +92,27 @@ render() {
 
   return (
   <div>
+      <Modal isOpen={this.state.isDeleteModal} toggle={this._toggle} className="">
+          <ModalHeader toggle={this._toggle}>Confirm to delete this Comment</ModalHeader>
+          <ModalBody>
+            <div className={`d-flex justify-content-between py-1 mb-2 ${(isOpen === index) ? 'bg-warning' : null}`}>
+              <div>
+                <div>{comment.body}</div>
+                <span>
+                  <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span className="text-white">{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
+                </span>
+              </div>
+            </div>
+            <hr/>
+            <div className="d-flex justify-content-center">
+              <Button disabled outline color="primary">This action is NOT reversible.</Button>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this._deleteComment}>Delete</Button>{' '}
+            <Button color="secondary" onClick={this._toggle}>Cancel</Button>
+          </ModalFooter>
+      </Modal>
       <ListGroupItem
         className={`justify-content-between py-1 mb-2 ${(isOpen === index) ? 'bg-warning' : null}`}>
         <div>
@@ -86,7 +122,7 @@ render() {
           </span>
         </div>
         <div className="text-success ml-auto mr-5">
-          {index + 1}
+          n°{index + 1}
         </div>
         <div style={{width: '150px'}} className="d-flex justify-content-end">
           <div className="d-flex justify-content-between align-items-center mr-5">
@@ -104,10 +140,11 @@ render() {
         <div>
           <ButtonGroup>
             <Button
-              onClick={(e)=>changeIsOpenForm(index)}
-              outline size="sm" color="primary" > <FaEdit/></Button>
+              outline={!(isOpen === index)}
+              onClick={()=>this._updateStateForUpdate()}
+              size="sm" color="primary" > <FaEdit/></Button>
             <Button
-              onClick={(e)=>this._deleteComment()}
+              onClick={(e)=>this._toggle()}
               outline size="sm" color="primary" > <FaTrashO/></Button>
           </ButtonGroup>
         </div>
@@ -126,7 +163,7 @@ render() {
             <div className="d-flex justify-content-end">
               <Button
                 onClick={()=>this._updateComment()}
-                type="submit" color="warning">Confirm</Button>
+                type="submit" color="warning">Update</Button>
                 &nbsp;&nbsp;
               <Button
                 onClick={()=>changeIsOpenForm(index)}
@@ -138,8 +175,6 @@ render() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
-    // fetchComments: (comments) => dispatch(fetchComments(comments)),
     ac_updateComment: (idC, comment, idPost) => dispatch(ac_updateComment(idC, comment, idPost)),
     ac_deleteComment: (idC, idPost) => dispatch(ac_deleteComment(idC, idPost)),
   }
