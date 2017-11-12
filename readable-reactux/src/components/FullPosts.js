@@ -19,17 +19,14 @@ class FullPosts extends Component {
     this.state = {
     }
   }
-  componentDidMount () {
-    this.props.fetchAllPosts();
+  componentWillMount () {
+    this.props.fetchAllPosts()
   }
 
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
     const _category = this.props.match.params.cat
-
-    console.log('Category path:', _category)
-
     const displayPosts = this.props.allPosts
     .filter(post => (_category) ? (post.category === _category) : true)
     .sort((p1, p2) => p2.voteScore - p1.voteScore)

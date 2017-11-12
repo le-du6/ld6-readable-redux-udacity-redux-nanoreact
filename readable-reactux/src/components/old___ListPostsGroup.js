@@ -19,10 +19,8 @@ class ListPostsGroup extends Component {
     this.state = {
     }
   }
-  componentDidMount () {
-    // this.props.fetchAllCategories();
+  componentWillMount () {
     this.props.fetchAllPosts();
-    // this.props.fetchAllCategoriesWPosts();
   }
 
   render() {

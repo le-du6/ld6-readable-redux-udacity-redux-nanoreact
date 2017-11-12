@@ -50,7 +50,7 @@ const JCAB = "d-flex justify-content-between align-items-center"
 class OnePost extends Component {
   constructor(props) {
     super(props);
-    console.log("from OnePost: ",props)
+    // console.log("from OnePost: ",props)
     this.state = {
       isOpenForm: -1,
       newComment: {
@@ -71,7 +71,7 @@ class OnePost extends Component {
     this.props.fetchComments(this.props.match.params.post_id);
   }
   onChangeForm(x) {
-    console.log('onChangeForm(x)', x.formData);
+    // console.log('onChangeForm(x)', x.formData);
     this.setState({
       newComment: x.formData
     });

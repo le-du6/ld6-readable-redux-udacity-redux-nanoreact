@@ -62,16 +62,13 @@ _onUpdateComment(x) {
     updateComment: x.formData
   });
 }
-_updateComment(x) {
-  // console.log(this.props.comment.id, this.state.updateComment)
+_updateComment() {
+  this.props.ac_updateComment(this.props.comment.id, this.state.updateComment, this.props.postId)
   this.props.changeIsOpenForm(-1)
-  this.props.ac_updateComment(this.props.comment.id, this.state.updateComment)
-  this.props.fetchComments(this.props.postId)
 }
 _deleteComment() {
-  this.props.changeIsOpenForm(-1)
-  this.props.ac_deleteComment(this.props.comment.id)
-  this.props.fetchComments(this.props.postId)
+    this.props.ac_deleteComment(this.props.comment.id, this.props.postId)
+    this.props.changeIsOpenForm(-1)
 }
 render() {
   const { comment, index, category, isOpen, changeIsOpenForm } = this.props
@@ -128,11 +125,11 @@ render() {
           autocomplete="off">
             <div className="d-flex justify-content-end">
               <Button
-                onClick={(e)=>this._updateComment(e)}
+                onClick={()=>this._updateComment()}
                 type="submit" color="warning">Confirm</Button>
                 &nbsp;&nbsp;
               <Button
-                onClick={(e)=>changeIsOpenForm(index)}
+                onClick={()=>changeIsOpenForm(index)}
                 type="button">Cancel</Button>
             </div>
       </AddCommentForm>
@@ -142,9 +139,9 @@ render() {
 function mapDispatchToProps(dispatch) {
   return {
     // fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
-    fetchComments: (comments) => dispatch(fetchComments(comments)),
-    ac_updateComment: (idC, comment) => dispatch(ac_updateComment(idC, comment)),
-    ac_deleteComment: (idC) => dispatch(ac_deleteComment(idC)),
+    // fetchComments: (comments) => dispatch(fetchComments(comments)),
+    ac_updateComment: (idC, comment, idPost) => dispatch(ac_updateComment(idC, comment, idPost)),
+    ac_deleteComment: (idC, idPost) => dispatch(ac_deleteComment(idC, idPost)),
   }
 }
 const mapStateToProps = (state, props) => ({

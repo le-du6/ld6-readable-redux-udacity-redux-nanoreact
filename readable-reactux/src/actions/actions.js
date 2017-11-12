@@ -49,13 +49,21 @@ export const ac_postComment = (comment) => dispatch => {
   postComment(comment)
     .then(newComment => dispatch(postNewComment(newComment)))
 }
-export const ac_updateComment = (idC, comment) => dispatch => {
+export const ac_updateComment = (idC, comment, idPost) => dispatch => {
   putComment(idC, comment)
-    .then(comment => dispatch(putUpdateComment(comment)))
+    .then(comment => {
+      dispatch(putUpdateComment(comment))
+      getComments(idPost)
+        .then(comments => dispatch(getAllComments(comments)))
+    })
 }
-export const ac_deleteComment = (idC) => dispatch => {
+export const ac_deleteComment = (idC, idPost) => dispatch => {
   delComment(idC)
-    .then(idC => dispatch(deleteAComment(idC)))
+    .then(idC => {
+      dispatch(deleteAComment(idC))
+      getComments(idPost)
+        .then(comments => dispatch(getAllComments(comments)))
+    })
 }
 export const fetchCurrentPost = (postId) => dispatch => {
   getPostsId(postId)
