@@ -88,14 +88,13 @@ class OnePost extends Component {
 
   _changeIsOpenForm(index) {
     (this.state.isOpenForm === -1 || this.state.isOpenForm !== index)
-    ? this.setState({isOpenForm: index}, console.log(this.state.isOpenForm))
-    : this.setState({isOpenForm: -1}, console.log(this.state.isOpenForm))
+    ? this.setState({isOpenForm: index})
+    : this.setState({isOpenForm: -1})
   }
 
   render() {
     const postId = this.props.match.params.post_id
     const currentPost = this.props.currentPost
-    // const category = ((currentPost===undefined) || currentPost.error) ? "" : currentPost.category
     const category = this.props.match.params.category
     const comments = this.props.comments || []
     const nbComment = comments.length || 0

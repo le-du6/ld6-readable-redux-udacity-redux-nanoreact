@@ -64,8 +64,8 @@ _toggle() {
 }
 _onUpdateComment(x) {
   this.setState({
-    updateComment: x.formData
-  });
+    updateComment: Object.assign({}, x.formData, {timestamp: Date.parse(x.formData.date)} )
+  }, () => console.log(this.state.updateComment));
 }
 _updateStateForUpdate() {
   this.setState({
@@ -87,9 +87,6 @@ _deleteComment() {
 }
 render() {
   const { comment, index, category, isOpen, changeIsOpenForm } = this.props
-
-  console.log(this.props.category)
-
   return (
   <div>
       <Modal isOpen={this.state.isDeleteModal} toggle={this._toggle} className="">
