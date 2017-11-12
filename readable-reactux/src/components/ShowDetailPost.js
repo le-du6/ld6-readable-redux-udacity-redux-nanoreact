@@ -4,7 +4,7 @@ import { FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
 import { MdQuestionAnswer} from "react-icons/lib/md"
 
 const _options = { year: 'numeric', month: 'long', day: 'numeric'}
-const _Capitalize = (string="") => string[0].toUpperCase() + string.slice(1)
+const _Capitalize = (string="v") => string[0].toUpperCase() + string.slice(1)
 
 export const ShowDetailPost = ({
   history,

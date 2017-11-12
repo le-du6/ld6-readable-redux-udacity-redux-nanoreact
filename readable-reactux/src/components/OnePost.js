@@ -6,9 +6,9 @@ import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
 
-import AddCommentForm from "react-jsonschema-form";
 import TopButtonsPost from "./TopButtonsPost"
 import { ShowDetailPost } from './ShowDetailPost';
+import ShowDetailComment from './ShowDetailComment';
 import shortid from 'shortid'
 
 import {
@@ -42,9 +42,6 @@ const schema = {
 const uiSchema = {
   body: {
     'ui:widget': "textarea",
-    "ui:options": {
-      "label": true
-    }
   },
 };
 
@@ -53,7 +50,7 @@ const JCAB = "d-flex justify-content-between align-items-center"
 class OnePost extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    // console.log(props)
     this.state = {
       newComment: {
         timestamp: 0,
@@ -84,13 +81,11 @@ class OnePost extends Component {
           console.log(JSON.stringify(this.state.newComment))
           this.props.ac_postComment(this.state.newComment)
           this.props.fetchComments(this.props.match.params.post_id);
-          // this.props.history.push(this.props.location.pathname)
     })
   }
 
   render() {
-    const _options = { year: 'numeric', month: 'long', day: 'numeric'}
-    const _Capitalize = (string = "V") => string[0].toUpperCase() + string.slice(1)
+    const postId = this.props.match.params.post_id
     const currentPost = this.props.currentPost
     const category = ((currentPost===undefined) || currentPost.error) ? "" : currentPost.category
     const comments = this.props.comments || []
@@ -102,56 +97,10 @@ class OnePost extends Component {
         ? <div>This post doesn't exist</div>
         : <ShowDetailPost {...this.props} nbComment={nbComment}/>}
       <TopButtonsPost />
-      <AddCommentForm
-        className="mb-3 offset-3 col-6"
-        schema={schema}
-        formData={this.state.newComment}
-        uiSchema={uiSchema}
-        onChange={this.onChangeForm}
-        onSubmit={this._postComment}
-        onError={() => console.log("errors")}
-        autocomplete="off">
-          <div className="d-flex justify-content-end">
-            <Button type="submit" color="info">Submit</Button>
-              &nbsp;&nbsp;
-            <Button type="button" onClick={this.props.onNewUser}>Cancel</Button>
-          </div>
-      </AddCommentForm>
       <ListGroup className="offset-2">
-        {comments.sort((a,b)=>b.timestamp-a.timestamp).map((comment, index) =>
-          <ListGroupItem
-            key={index}
-            className="justify-content-between py-1 mb-2">
-            <div>
-              <div>{comment.body}</div>
-              <span>
-                <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span className="text-white">{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
-              </span>
-            </div>
-            <div className="text-success ml-auto mr-5">
-              {index + 1}
-            </div>
-            <div style={{width: '150px'}} className="d-flex justify-content-end">
-              <div className="d-flex justify-content-between align-items-center mr-5">
-              <span className="d-flex align-items-center flex-column">
-                <small className="text-muted">+ 1</small>
-                <small className="text-muted">scored</small>
-              </span>
-                <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{comment.voteScore}</Button>
-                <span className="d-flex align-items-center flex-column">
-                  <FaPlus className="mb-1" size="12" />
-                  <FaMinus className="mt-1" size="12" />
-                </span>
-              </div>
-            </div>
-            <div>
-              <ButtonGroup>
-                <Button outline size="sm" color="primary" > <FaEdit/></Button>
-                <Button outline size="sm" color="primary" > <FaTrashO/></Button>
-              </ButtonGroup>
-            </div>
-          </ListGroupItem>
-        )}
+        {comments.sort((a,b)=>b.timestamp - a.timestamp).map((comment, index) => {
+        return <ShowDetailComment { ...{postId, comment, index, category} } />})
+        }
       </ListGroup>
     </div>
     )
