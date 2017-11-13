@@ -7,7 +7,9 @@ class TopButtonsPost extends Component {
     return (
       <div className="d-flex justify-content-end mb-2 mt-2">
         <ButtonGroup>
-          <Button outline  color="primary" > <FaPlus/> Add Comment</Button>
+          <Button
+            onClick={() => this.props.loadModal()}
+            outline color="primary" > <FaPlus/> Add Comment</Button>
         </ButtonGroup>
       </div>
     );

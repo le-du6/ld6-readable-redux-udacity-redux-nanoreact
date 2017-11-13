@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Route, Link } from "react-router-dom";
 import { connect } from 'react-redux'
+import sortBy from 'sort-by'
 
-import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
-
+import AddCommentForm from "react-jsonschema-form";
 import TopButtonsPost from "./TopButtonsPost"
 import { ShowDetailPost } from './ShowDetailPost';
 import ShowDetailComment from './ShowDetailComment';
 import shortid from 'shortid'
-
 import {
   ac_postComment,
   fetchAllCategories,
@@ -42,6 +42,7 @@ const schema = {
 const uiSchema = {
   body: {
     'ui:widget': "textarea",
+    "ui:autofocus": true,
   },
 };
 
@@ -53,6 +54,7 @@ class OnePost extends Component {
     // console.log("from OnePost: ",props)
     this.state = {
       isOpenForm: -1,
+      isModal: false,
       newComment: {
         timestamp: 0,
         author: "",
@@ -62,35 +64,46 @@ class OnePost extends Component {
         parentId: this.props.match.params.post_id,
       }
     }
-    this.onChangeForm = this.onChangeForm.bind(this);
-    this._postComment = this._postComment.bind(this);
-    this._changeIsOpenForm = this._changeIsOpenForm.bind(this);
+    this._postComment = this._postComment.bind(this)
+    this._changeIsOpenForm = this._changeIsOpenForm.bind(this)
+    this._toggle = this._toggle.bind(this)
+    this._onUpdateComment = this._onUpdateComment.bind(this);
+  }
+  _toggle() {
+    this.setState({
+      isModal: !this.state.isModal
+    }, () => {})
+  }
+  _onUpdateComment(x) {
+    this.setState({
+      newComment: Object.assign({}, x.formData, {timestamp: Date.parse(x.formData.date)} )
+    }, () => console.log(this.state.newComment));
   }
   componentWillMount () {
-    this.props.fetchCurrentPost(this.props.match.params.post_id);
-    this.props.fetchComments(this.props.match.params.post_id);
-  }
-  onChangeForm(x) {
-    this.setState({
-      newComment: x.formData
-    });
+    this.props.fetchCurrentPost(this.props.match.params.post_id)
+    this.props.fetchComments(this.props.match.params.post_id)
   }
   _postComment(){
     this.setState({
         newComment: Object.assign({}, this.state.newComment, { timestamp: Date.parse(this.state.newComment.date)})
       }, () => {
           console.log(JSON.stringify(this.state.newComment))
-          this.props.ac_postComment(this.state.newComment)
-          this.props.fetchComments(this.props.match.params.post_id);
+          this.props.ac_postComment(this.props.match.params.post_id, this.state.newComment)
+          this.setState({newComment: {
+            timestamp: 0,
+            author: "",
+            body: "",
+            date: new Date().toLocaleDateString().split('/').reverse().join('-'),
+            id: shortid.generate(),
+            parentId: this.props.match.params.post_id,
+          }}, () => this.setState({isModal: false}))
     })
   }
-
   _changeIsOpenForm(index) {
     (this.state.isOpenForm === -1 || this.state.isOpenForm !== index)
     ? this.setState({isOpenForm: index})
     : this.setState({isOpenForm: -1})
   }
-
   render() {
     const postId = this.props.match.params.post_id
     const currentPost = this.props.currentPost
@@ -103,10 +116,38 @@ class OnePost extends Component {
       {((currentPost===undefined) || currentPost.error)
         ? <div>This post doesn't exist</div>
         : <ShowDetailPost {...this.props} nbComment={nbComment}/>}
-      <TopButtonsPost />
+      <TopButtonsPost loadModal={this._toggle}/>
+      <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
+          <ModalHeader toggle={this._toggle}>Write a new Comment here</ModalHeader>
+          <ModalBody>
+          <AddCommentForm
+          className=""
+          schema={schema}
+          formData={this.state.newComment}
+          uiSchema={uiSchema}
+          onChange={this._onUpdateComment}
+          onSubmit={this._postComment}
+          onError={() => console.log("errors")}
+          autocomplete="off">
+            {/* <div className="d-flex justify-content-end">
+              <Button
+                onClick={()=>this._updateComment()}
+                type="submit" color="warning">Update</Button>
+                &nbsp;&nbsp;
+              <Button
+                onClick={()=>changeIsOpenForm(index)}
+                type="button">Cancel</Button>
+            </div> */}
+      </AddCommentForm>
+          </ModalBody>
+          <ModalFooter>
+            {/* <Button color="primary" onClick={this._postComment}>Add</Button>{' '} */}
+            <Button color="secondary" onClick={this._toggle}>Cancel</Button>
+          </ModalFooter>
+      </Modal>
       <ListGroup className="offset-2">
         {comments
-          .sort((a,b)=>b.timestamp - a.timestamp)
+          .sort(sortBy('-timestamp', 'body'))
           .map((comment, index) => {
             let isOpen = this.state.isOpenForm;
             const changeIsOpenForm = this._changeIsOpenForm;
