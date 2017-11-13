@@ -60,7 +60,7 @@ constructor(props) {
 _toggle() {
   this.setState({
     isDeleteModal: !this.state.isDeleteModal
-  });
+  }, () => this.props.changeIsOpenForm(-1));
 }
 _onUpdateComment(x) {
   this.setState({
@@ -118,7 +118,7 @@ render() {
             <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span className="text-white">{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
           </span>
         </div>
-        <div className="text-success ml-auto mr-5">
+        <div className="text-info ml-auto mr-5">
           n°{index + 1}
         </div>
         <div style={{width: '150px'}} className="d-flex justify-content-end">
@@ -141,8 +141,9 @@ render() {
               onClick={()=>this._updateStateForUpdate()}
               size="sm" color="primary" > <FaEdit/></Button>
             <Button
+              outline={!(this.state.isDeleteModal)}
               onClick={(e)=>this._toggle()}
-              outline size="sm" color="primary" > <FaTrashO/></Button>
+              size="sm" color="primary" > <FaTrashO/></Button>
           </ButtonGroup>
         </div>
       </ListGroupItem>

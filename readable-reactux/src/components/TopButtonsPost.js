@@ -8,8 +8,6 @@ class TopButtonsPost extends Component {
       <div className="d-flex justify-content-end mb-2 mt-2">
         <ButtonGroup>
           <Button outline  color="primary" > <FaPlus/> Add Comment</Button>
-          {/* <Button outline  color="primary" > <FaCalendar />&nbsp;2recent </Button>
-          <Button outline  color="primary" > <FaCalendar />&nbsp;3recent </Button> */}
         </ButtonGroup>
       </div>
     );

@@ -15,7 +15,7 @@ export const ShowDetailPost = ({
         <ListGroupItem onClick={() => history.push(`/${category}/${id}`)}
           className="justify-content-between py-1 mb-2">
             <div>{title}</div>
-          <div className="text-success ml-auto mr-5">
+          <div className="text-info ml-auto mr-5">
             {(nbComment !== 0) ? <span>{nbComment} <MdQuestionAnswer/></span> : ''}
           </div>
           <div style={{width: '150px'}} className="d-flex justify-content-end">

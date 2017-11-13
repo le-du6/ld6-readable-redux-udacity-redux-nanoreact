@@ -45,9 +45,13 @@ export const getAllComments = comments => ({
   })
 
 //  action creators with THUNK middlware
-export const ac_postComment = (comment) => dispatch => {
+export const ac_postComment = (idPost, comment) => dispatch => {
   postComment(comment)
-    .then(newComment => dispatch(postNewComment(newComment)))
+    .then(newComment => {
+      dispatch(postNewComment(newComment))
+      getComments(idPost)
+        .then(comments => dispatch(getAllComments(comments)))
+    })
 }
 export const ac_updateComment = (idC, comment, idPost) => dispatch => {
   putComment(idC, comment)

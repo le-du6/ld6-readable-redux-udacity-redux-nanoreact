@@ -44,7 +44,7 @@ class FullPosts extends Component {
             <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
           </span>
         </div>
-        <div className="text-success ml-auto mr-5">
+        <div className="text-info ml-auto mr-5">
           {(nbComment !== 0) ? <span>{nbComment} <MdQuestionAnswer/></span> : ''}
         </div>
         <div style={{width: '150px'}} className="d-flex justify-content-end">

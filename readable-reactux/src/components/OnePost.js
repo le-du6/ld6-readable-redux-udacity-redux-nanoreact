@@ -71,7 +71,6 @@ class OnePost extends Component {
     this.props.fetchComments(this.props.match.params.post_id);
   }
   onChangeForm(x) {
-    // console.log('onChangeForm(x)', x.formData);
     this.setState({
       newComment: x.formData
     });
@@ -106,10 +105,13 @@ class OnePost extends Component {
         : <ShowDetailPost {...this.props} nbComment={nbComment}/>}
       <TopButtonsPost />
       <ListGroup className="offset-2">
-        {comments.sort((a,b)=>b.timestamp - a.timestamp).map((comment, index) => {
-          let isOpen = this.state.isOpenForm;
-          const changeIsOpenForm = this._changeIsOpenForm;
-        return <ShowDetailComment key={index} { ...{postId, comment, index, category, isOpen, changeIsOpenForm} } />})
+        {comments
+          .sort((a,b)=>b.timestamp - a.timestamp)
+          .map((comment, index) => {
+            let isOpen = this.state.isOpenForm;
+            const changeIsOpenForm = this._changeIsOpenForm;
+            return <ShowDetailComment key={index} { ...{postId, comment, index, category, isOpen, changeIsOpenForm}} />
+          })
         }
       </ListGroup>
     </div>
@@ -121,7 +123,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
     fetchComments: (comments) => dispatch(fetchComments(comments)),
-    ac_postComment: (comment) => dispatch(ac_postComment(comment)),
+    ac_postComment: (idPost, comment) => dispatch(ac_postComment(idPost, comment)),
   }
 }
 
