@@ -134,20 +134,16 @@ class OnePost extends Component {
           onError={() => console.log("errors")}
           autocomplete="off">
             <div className="d-flex justify-content-end">
-              {/* <Button
-                onClick={()=>this._updateComment()}
-                type="submit" color="warning">Update</Button>
-                &nbsp;&nbsp;
               <Button
-                onClick={()=>changeIsOpenForm(index)}
-                type="button">Cancel</Button> */}
+                onSubmit={this._postComment}
+                color="primary"
+                type="submit">Add</Button>
+              <Button
+                onClick={this._toggle}
+                type="button">Cancel</Button>
             </div>
-      </AddCommentForm>
+          </AddCommentForm>
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this._postComment}>Add</Button>{' '}
-            <Button color="secondary" onClick={this._toggle}>Cancel</Button>
-          </ModalFooter>
       </Modal>
       <ListGroup className="offset-2">
         {comments
