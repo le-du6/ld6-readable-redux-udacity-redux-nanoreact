@@ -17,14 +17,14 @@ class TopButtons extends Component {
           outline={!(cS[0].includes('timestamp'))}
           color="primary">
           <FaSortAmountAsc
-            style={(cS[0][0] === '-') ? {transform: "rotate(180deg)"} : null}
+            style={(cS[0].includes('timestamp') && cS[0][0] === '-') ? {transform: "rotate(180deg)"} : null}
              />&nbsp;Dates</Button>
         <Button
           onClick={this.props._toggleVote}
           outline={!(cS[0].includes('voteScore'))}
           color="primary">
-          <FaSortAmountDesc
-            style={{transform: "rotate(180deg)"}}
+          <FaSortAmountAsc
+            style={(cS[0].includes('voteScore') && cS[0][0] === '-') ? {transform: "rotate(180deg)"} : null}
              />&nbsp;Votes </Button>
       </ButtonGroup>
       <div className="ml-auto">

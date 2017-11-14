@@ -2,22 +2,18 @@ import React, { Component } from 'react'
 import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap"
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa"
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
-
 import { Route, Link } from "react-router-dom"
 import { getCategories } from "../utils/ReadAPI"
 import TopButtons from "./TopButtons"
 import sortBy from 'sort-by'
-
 import { connect } from 'react-redux'
 import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
-
-const JCAB = "d-flex justify-content-between align-items-center"
 
 class FullPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentSort: ['-voteScore', '-timestamp'],
+      currentSort: localStorage['readable-sort'].split(',') || ['-timestamp', '-voteScore'],
     }
     this._toggleDate = this._toggleDate.bind(this)
     this._toggleVote = this._toggleVote.bind(this);
@@ -30,14 +26,14 @@ class FullPosts extends Component {
     // console.log('date: ', cS[0]);
     (cS[0].includes('voteScore')) ?  cS = cS.reverse() : null;
     (cS[0].includes('-')) ?  cS[0] = cS[0].slice(1) : cS[0] = '-' + cS[0];
-    this.setState({currentSort: [...cS] });
+    this.setState({currentSort: [...cS] }, () => localStorage['readable-sort'] = [...cS].join(','));
   }
   _toggleVote() {
     let cS = [...this.state.currentSort];
     // console.log('vote: ', cS[0]);
     (cS[0].includes('timestamp')) ?  cS = cS.reverse() : null;
     (cS[0].includes('-')) ?  cS[0] = cS[0].slice(1) : cS[0] = '-' + cS[0];
-    this.setState({currentSort: [...cS] });
+    this.setState({currentSort: [...cS] }, () => localStorage['readable-sort'] = [...cS].join(','));
   }
   render() {
     const {_toggleDate, _toggleVote} = this;
@@ -100,11 +96,9 @@ function mapDispatchToProps(dispatch) {
     fetchAllPosts: (posts) => dispatch(fetchAllPosts(posts)),
   }
 }
-
 const mapStateToProps = (state, props) => ({
   allPosts: state.allPosts
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(FullPosts);
 
 
