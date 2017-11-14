@@ -3,7 +3,7 @@ import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaPlus, FaMinus, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { Route, Link } from "react-router-dom"
 import Menu from "./components/Menu"
-import TopButtons from "./components/TopButtons"
+// import TopButtons from "./components/TopButtons"
 import FullPosts from "./components/FullPosts"
 import OnePost from "./components/OnePost"
 // import ListPostsGroup from './components/ListPostsGroup';
@@ -27,9 +27,7 @@ class App extends Component {
       <div className="container">
         <Row>
           <Route path="/" component={Menu}/>
-          {/* <Col className="offset-3"> */}
           <Col>
-            <TopButtons/>
             <Route exact path="/" component={FullPosts}/>
             <Route exact path="/:cat" component={FullPosts}/>
             <Route exact path="/:category/:post_id" component={OnePost}/>

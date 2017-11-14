@@ -38,20 +38,16 @@ class Menu extends Component {
         <h3 className="my-3">
           <FaNewspaperO className="mr-2" />Readable
         </h3>
-
         <Col>
           <div className="mb-2">
           <Button
             onClick={() => this.props.history.push("/")}  outline color="primary" className={JCAB}>
-            <FaGlobe size="18" />&nbsp;View all&nbsp;{this.props.toutesLesCat.reduce((acc,cat)=>acc+cat.nbPost,0)}&nbsp;<MdMessage/>
+            <FaGlobe size="18" />&nbsp;All Posts&nbsp;&nbsp;&nbsp;&nbsp;{this.props.toutesLesCat.reduce((acc,cat)=>acc+cat.nbPost,0)}&nbsp;<MdMessage/>
           </Button>
           </div>
-          {/* <div><br /></div> */}
-
-          <ListGroup className="">
+          <ListGroup>
             {this.props.toutesLesCat.map((item)=>itemMenu(item, this.props.location))}
           </ListGroup>
-
         </Col>
       </div>
     );

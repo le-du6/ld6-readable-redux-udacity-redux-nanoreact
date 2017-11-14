@@ -89,8 +89,12 @@ render() {
   const { comment, index, category, isOpen, changeIsOpenForm } = this.props
   return (
   <div>
-      <Modal isOpen={this.state.isDeleteModal} toggle={this._toggle} className="">
-          <ModalHeader toggle={this._toggle}>Confirm to delete this Comment</ModalHeader>
+      <Modal
+        isOpen={this.state.isDeleteModal}
+        toggle={this._toggle}
+        className="">
+          <ModalHeader
+            toggle={this._toggle}>Confirm to delete this Comment</ModalHeader>
           <ModalBody>
             <div className={`d-flex justify-content-between py-1 mb-2 ${(isOpen === index) ? 'bg-warning' : null}`}>
               <div>
@@ -106,7 +110,7 @@ render() {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this._deleteComment}>Delete</Button>{' '}
+            <Button autofocus color="primary" onClick={this._deleteComment}>Delete</Button>
             <Button color="secondary" onClick={this._toggle}>Cancel</Button>
           </ModalFooter>
       </Modal>

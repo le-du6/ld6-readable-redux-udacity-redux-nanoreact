@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
-// import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
-import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
+import React, { Component } from 'react'
+import { Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap"
+import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa"
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
 
-import { Route, Link } from "react-router-dom";
-import { getCategories } from "../utils/ReadAPI";
+import { Route, Link } from "react-router-dom"
+import { getCategories } from "../utils/ReadAPI"
+import TopButtons from "./TopButtons"
+import sortBy from 'sort-by'
 
 import { connect } from 'react-redux'
 import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
@@ -17,25 +18,38 @@ class FullPosts extends Component {
     super(props);
     // console.log(props)
     this.state = {
+      currentSortVote: ['-voteScore', '-timestamp'],
+      currentSortDate: ['-timestamp', '-voteScore'],
+      currentSort: ['-voteScore', '-timestamp'],
     }
+    this._toggleDate = this._toggleDate.bind(this)
+    this._toggleVote = this._toggleVote.bind(this);
   }
   componentWillMount () {
     this.props.fetchAllPosts()
   }
+  _toggleDate() {
+    this.setState({currentSort: [this.state.currentSortDate[0].slice(1), this.state.currentSortDate[1]] })
+  }
+  _toggleVote() {
 
+  }
   render() {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
     const _category = this.props.match.params.cat
     const displayPosts = this.props.allPosts
     .filter(post => (_category) ? (post.category === _category) : true)
-    .sort((p1, p2) => p2.voteScore - p1.voteScore)
+    .sort(sortBy(...this.state.currentSort))
 
     return (
     (displayPosts.length===0) ? <h3>This Category doesn't exist!</h3>
       :
+    <div>
+    <TopButtons _toggleDate={this._toggleDate} _toggleVote={this._toggleVote}/>
     <ListGroup>
-      {displayPosts.map( ({id, timestamp, title, author, category, voteScore, nbComment}, index) =>
+      {displayPosts
+        .map( ({id, timestamp, title, author, category, voteScore, nbComment}, index) =>
       <ListGroupItem onClick={() => this.props.history.push(`/${category}/${id}`)}
         key={index} action className="justify-content-between py-1 mb-2">
         <div>
@@ -69,6 +83,7 @@ class FullPosts extends Component {
       </ListGroupItem>
       )}
     </ListGroup>
+    </div>
   );
   }
 }

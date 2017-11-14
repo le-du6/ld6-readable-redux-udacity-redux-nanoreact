@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Route, Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
+import TopButtonsOnePost from "./TopButtonsOnePost"
+
 
 import { Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
@@ -110,15 +112,17 @@ class OnePost extends Component {
     const category = this.props.match.params.category
     const comments = this.props.comments || []
     const nbComment = comments.length || 0
+    const history = this.props.history
 
     return (
     <div>
+      <TopButtonsOnePost { ...{history} }/>
       {((currentPost===undefined) || currentPost.error)
         ? <div>This post doesn't exist</div>
         : <ShowDetailPost {...this.props} nbComment={nbComment}/>}
       <TopButtonsPost loadModal={this._toggle}/>
       <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
-          <ModalHeader toggle={this._toggle}>Write a new Comment here</ModalHeader>
+          <ModalHeader toggle={this._toggle}>Write a new Comment</ModalHeader>
           <ModalBody>
           <AddCommentForm
           className=""
@@ -129,19 +133,19 @@ class OnePost extends Component {
           onSubmit={this._postComment}
           onError={() => console.log("errors")}
           autocomplete="off">
-            {/* <div className="d-flex justify-content-end">
-              <Button
+            <div className="d-flex justify-content-end">
+              {/* <Button
                 onClick={()=>this._updateComment()}
                 type="submit" color="warning">Update</Button>
                 &nbsp;&nbsp;
               <Button
                 onClick={()=>changeIsOpenForm(index)}
-                type="button">Cancel</Button>
-            </div> */}
+                type="button">Cancel</Button> */}
+            </div>
       </AddCommentForm>
           </ModalBody>
           <ModalFooter>
-            {/* <Button color="primary" onClick={this._postComment}>Add</Button>{' '} */}
+            <Button color="primary" onClick={this._postComment}>Add</Button>{' '}
             <Button color="secondary" onClick={this._toggle}>Cancel</Button>
           </ModalFooter>
       </Modal>
