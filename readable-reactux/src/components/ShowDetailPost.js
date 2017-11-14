@@ -26,7 +26,8 @@ export const ShowDetailPost = ({
             </span>
               <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
               <span className="d-flex align-items-center flex-column">
-                <FaPlus className="mb-1" size="12" />
+                <FaPlus
+                  className="mb-1" size="12" />
                 <FaMinus className="mt-1" size="12" />
               </span>
             </div>

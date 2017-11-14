@@ -7,7 +7,8 @@ import {
   GET_CURRENT_POST,
   POST_NEW_COMMENT,
   PUT_UPDATE_COMMENT,
-  DEL_COMMENT
+  DEL_COMMENT,
+  VOTE_COMMENT,
 } from '../actions/actions'
 
 const initialState = {
@@ -25,6 +26,10 @@ function myReducer(state = initialState, action) {
       return state
     case DEL_COMMENT:
       return state
+    case VOTE_COMMENT:
+      return Object.assign({}, state, {
+        votedComment: action.comment
+      })
     case GET_ALL_CATEGORIES:
       return Object.assign({}, state, {
         allCategories: action.categories

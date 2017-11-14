@@ -14,6 +14,7 @@ import { ShowDetailPost } from './ShowDetailPost';
 import ShowDetailComment from './ShowDetailComment';
 import shortid from 'shortid'
 import {
+  ac_voteComment,
   ac_postComment,
   fetchAllCategories,
   fetchAllCategoriesWPosts,
@@ -113,6 +114,7 @@ class OnePost extends Component {
     const comments = this.props.comments || []
     const nbComment = comments.length || 0
     const history = this.props.history
+    const ac_voteComment = this.props.ac_voteComment
 
     return (
     <div>
@@ -151,7 +153,8 @@ class OnePost extends Component {
           .map((comment, index) => {
             let isOpen = this.state.isOpenForm;
             const changeIsOpenForm = this._changeIsOpenForm;
-            return <ShowDetailComment key={index} { ...{postId, comment, index, category, isOpen, changeIsOpenForm}} />
+            return <ShowDetailComment
+            key={index} { ...{ac_voteComment, postId, comment, index, category, isOpen, changeIsOpenForm}} />
           })
         }
       </ListGroup>
@@ -165,14 +168,14 @@ function mapDispatchToProps(dispatch) {
     fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
     fetchComments: (comments) => dispatch(fetchComments(comments)),
     ac_postComment: (idPost, comment) => dispatch(ac_postComment(idPost, comment)),
+    ac_postComment: (idPost, comment) => dispatch(ac_postComment(idPost, comment)),
+    ac_voteComment: (idPost, commentId, vote) => dispatch(ac_voteComment(idPost, commentId, vote)),
   }
 }
-
 const mapStateToProps = (state, props) => ({
   currentPost: state.currentPost,
   comments: state.comments
 })
-
 export default connect(mapStateToProps, mapDispatchToProps)(OnePost);
 
 

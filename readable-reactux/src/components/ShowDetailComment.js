@@ -86,7 +86,7 @@ _deleteComment() {
     this._toggle()
 }
 render() {
-  const { comment, index, category, isOpen, changeIsOpenForm } = this.props
+  const { postId, comment, index, category, isOpen, changeIsOpenForm } = this.props
   return (
   <div>
       <Modal
@@ -128,13 +128,17 @@ render() {
         <div style={{width: '150px'}} className="d-flex justify-content-end">
           <div className="d-flex justify-content-between align-items-center mr-5">
           <span className="d-flex align-items-center flex-column">
-            <small className="text-muted">+ 1</small>
-            <small className="text-muted">scored</small>
+            {/* <small className="text-muted">+ 1</small>
+            <small className="text-muted">scored</small> */}
           </span>
             <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{comment.voteScore}</Button>
             <span className="d-flex align-items-center flex-column">
-              <FaPlus className="mb-1" size="12" />
-              <FaMinus className="mt-1" size="12" />
+              <FaPlus
+                onClick={()=>this.props.ac_voteComment(postId, comment.id, {option: 'upVote'})}
+                className="mb-1" size="12" />
+              <FaMinus
+                onClick={()=>this.props.ac_voteComment(postId, comment.id, {option: 'downVote'})}
+                className="mt-1" size="12" />
             </span>
           </div>
         </div>
