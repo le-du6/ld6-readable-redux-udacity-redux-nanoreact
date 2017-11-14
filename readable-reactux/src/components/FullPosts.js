@@ -16,10 +16,7 @@ const JCAB = "d-flex justify-content-between align-items-center"
 class FullPosts extends Component {
   constructor(props) {
     super(props);
-    // console.log(props)
     this.state = {
-      currentSortVote: ['-voteScore', '-timestamp'],
-      currentSortDate: ['-timestamp', '-voteScore'],
       currentSort: ['-voteScore', '-timestamp'],
     }
     this._toggleDate = this._toggleDate.bind(this)
@@ -29,12 +26,21 @@ class FullPosts extends Component {
     this.props.fetchAllPosts()
   }
   _toggleDate() {
-    this.setState({currentSort: [this.state.currentSortDate[0].slice(1), this.state.currentSortDate[1]] })
+    let cS = [...this.state.currentSort];
+    // console.log('date: ', cS[0]);
+    (cS[0].includes('voteScore')) ?  cS = cS.reverse() : null;
+    (cS[0].includes('-')) ?  cS[0] = cS[0].slice(1) : cS[0] = '-' + cS[0];
+    this.setState({currentSort: [...cS] });
   }
   _toggleVote() {
-
+    let cS = [...this.state.currentSort];
+    // console.log('vote: ', cS[0]);
+    (cS[0].includes('timestamp')) ?  cS = cS.reverse() : null;
+    (cS[0].includes('-')) ?  cS[0] = cS[0].slice(1) : cS[0] = '-' + cS[0];
+    this.setState({currentSort: [...cS] });
   }
   render() {
+    const {_toggleDate, _toggleVote} = this;
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
     const _category = this.props.match.params.cat
@@ -46,7 +52,8 @@ class FullPosts extends Component {
     (displayPosts.length===0) ? <h3>This Category doesn't exist!</h3>
       :
     <div>
-    <TopButtons _toggleDate={this._toggleDate} _toggleVote={this._toggleVote}/>
+    {/* <TopButtons _toggleDate={this._toggleDate} _toggleVote={this._toggleVote} cS={this.state.currentSort}/> */}
+    <TopButtons {...{_toggleDate, _toggleVote}} cS={this.state.currentSort}/>
     <ListGroup>
       {displayPosts
         .map( ({id, timestamp, title, author, category, voteScore, nbComment}, index) =>
