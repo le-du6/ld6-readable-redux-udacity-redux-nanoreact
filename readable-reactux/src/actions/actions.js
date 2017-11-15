@@ -1,4 +1,4 @@
-import { getCategories, getPosts, getComments, getPostsId, postComment, putComment, delComment, voteComment } from "../utils/ReadAPI";
+import { getCategories, getPosts, getComments, getPostsId, postComment, putComment, delComment, voteComment, votePost } from "../utils/ReadAPI";
 
 //  action types
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
@@ -10,6 +10,7 @@ export const POST_NEW_COMMENT = 'POST_NEW_COMMENT'
 export const PUT_UPDATE_COMMENT = 'PUT_UPDATE_COMMENT'
 export const DEL_COMMENT = 'DEL_COMMENT'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
+export const VOTE_POST = 'VOTE_POST'
 
 //  action creators
 export const postNewComment = newComment => ({
@@ -48,9 +49,18 @@ export const dVoteComment = comment => ({
     type: VOTE_COMMENT,
     comment
   })
+export const dVotePost = post => ({
+    type: VOTE_POST,
+    post
+  })
 
 //  action creators with THUNK middlware
-
+export const ac_votePost = (idPost, vote) => dispatch => {
+  votePost(idPost, vote)
+    .then(res => {
+      dispatch(dVotePost(res))
+    })
+}
 export const ac_voteComment = (idPost, commentId, vote) => dispatch => {
   voteComment(commentId, vote)
     .then(res => {

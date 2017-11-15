@@ -7,7 +7,7 @@ import { getCategories } from "../utils/ReadAPI"
 import TopButtons from "./TopButtons"
 import sortBy from 'sort-by'
 import { connect } from 'react-redux'
-import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
+import { ac_votePost, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
 
 class FullPosts extends Component {
   constructor(props) {
@@ -67,13 +67,17 @@ class FullPosts extends Component {
         <div style={{width: '150px'}} className="d-flex justify-content-end">
           <div className="d-flex justify-content-between align-items-center mr-5">
           <span className="d-flex align-items-center flex-column">
-        <small className="text-muted">+ 1</small>
-        <small className="text-muted">scored</small>
+        {/* <small className="text-muted">+ 1</small>
+        <small className="text-muted">scored</small> */}
       </span>
             <Button style={{width: '36px'}} size="lg" className="mx-1 p-1" color="secondary">{voteScore}</Button>
             <span className="d-flex align-items-center flex-column">
-              <FaPlus className="mb-1" size="12" />
-              <FaMinus className="mt-1" size="12" />
+              <FaPlus
+                onClick={(e)=>{e.stopPropagation(); this.props.ac_votePost(id, {option: 'upVote'})}}
+                className="mb-1" size="12" />
+              <FaMinus
+                onClick={(e)=>{e.stopPropagation(); this.props.ac_votePost(id, {option: 'downVote'})}}
+                className="mt-1" size="12" />
             </span>
           </div>
         </div>
@@ -93,7 +97,9 @@ class FullPosts extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAllPosts: (posts) => dispatch(fetchAllPosts(posts)),
+    fetchAllPosts: () => dispatch(fetchAllPosts()),
+    ac_votePost: (idPost, vote) => dispatch(ac_votePost(idPost, vote)),
+
   }
 }
 const mapStateToProps = (state, props) => ({

@@ -9,6 +9,7 @@ import {
   PUT_UPDATE_COMMENT,
   DEL_COMMENT,
   VOTE_COMMENT,
+  VOTE_POST,
 } from '../actions/actions'
 
 const initialState = {
@@ -26,6 +27,14 @@ function myReducer(state = initialState, action) {
       return state
     case DEL_COMMENT:
       return state
+    case VOTE_POST:
+      const id = action.post.id
+      const oldPost = state.allPosts.filter(p=>(p.id === id))[0]
+      return Object.assign({}, state, {
+        allPosts: state.allPosts
+          .filter(p =>!(p.id === id))
+          .concat(Object.assign({}, oldPost, {voteScore: action.post.voteScore}))
+      })
     case VOTE_COMMENT:
       return Object.assign({}, state, {
         votedComment: action.comment
