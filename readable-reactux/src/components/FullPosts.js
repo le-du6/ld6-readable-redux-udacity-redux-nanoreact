@@ -38,7 +38,7 @@ class FullPosts extends Component {
   render() {
     const {_toggleDate, _toggleVote} = this;
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
-    const _Capitalize = (string) => string[0].toUpperCase() + string.slice(1)
+    const _Capitalize = (string="true") => string[0].toUpperCase() + string.slice(1)
     const _category = this.props.match.params.cat
     const displayPosts = this.props.allPosts
     .filter(post => (_category) ? (post.category === _category) : true)

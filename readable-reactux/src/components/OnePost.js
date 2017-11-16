@@ -14,6 +14,7 @@ import { ShowDetailPost } from './ShowDetailPost';
 import ShowDetailComment from './ShowDetailComment';
 import shortid from 'shortid'
 import {
+  ac_votePost,
   ac_voteComment,
   ac_postComment,
   fetchAllCategories,
@@ -115,13 +116,14 @@ class OnePost extends Component {
     const nbComment = comments.length || 0
     const history = this.props.history
     const ac_voteComment = this.props.ac_voteComment
+    const ac_votePost = this.props.ac_votePost
 
     return (
     <div>
       <TopButtonsOnePost { ...{history} }/>
       {((currentPost===undefined) || currentPost.error)
         ? <div>This post doesn't exist</div>
-        : <ShowDetailPost {...this.props} nbComment={nbComment}/>}
+        : <ShowDetailPost ac_votePost={ac_votePost} {...this.props} nbComment={nbComment}/>}
       <TopButtonsPost loadModal={this._toggle}/>
       <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
           <ModalHeader toggle={this._toggle}>Write a new Comment</ModalHeader>
@@ -168,13 +170,14 @@ function mapDispatchToProps(dispatch) {
     fetchCurrentPost: (post) => dispatch(fetchCurrentPost(post)),
     fetchComments: (comments) => dispatch(fetchComments(comments)),
     ac_postComment: (idPost, comment) => dispatch(ac_postComment(idPost, comment)),
-    ac_postComment: (idPost, comment) => dispatch(ac_postComment(idPost, comment)),
     ac_voteComment: (idPost, commentId, vote) => dispatch(ac_voteComment(idPost, commentId, vote)),
+    ac_votePost: (idPost, vote) => dispatch(ac_votePost(idPost, vote)),
   }
 }
 const mapStateToProps = (state, props) => ({
   currentPost: state.currentPost,
-  comments: state.comments
+  comments: state.comments,
+  // allPosts: state.allPosts,
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OnePost);
 

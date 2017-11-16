@@ -7,6 +7,7 @@ const _options = { year: 'numeric', month: 'long', day: 'numeric'}
 const _Capitalize = (string="v") => string[0].toUpperCase() + string.slice(1)
 
 export const ShowDetailPost = ({
+  ac_votePost,
   history,
   currentPost: {id, timestamp, title, body, author, category, voteScore},
   nbComment
@@ -27,8 +28,11 @@ export const ShowDetailPost = ({
               <Button style={{width: '40px'}} size="lg" className="mx-2 p-1" color="secondary">{voteScore}</Button>
               <span className="d-flex align-items-center flex-column">
                 <FaPlus
+                  onClick={(e)=>{e.stopPropagation(); ac_votePost(id, {option: 'upVote'})}}
                   className="mb-1" size="12" />
-                <FaMinus className="mt-1" size="12" />
+                <FaMinus
+                  onClick={(e)=>{e.stopPropagation(); ac_votePost(id, {option: 'downVote'})}}
+                  className="mt-1" size="12" />
               </span>
             </div>
           </div>

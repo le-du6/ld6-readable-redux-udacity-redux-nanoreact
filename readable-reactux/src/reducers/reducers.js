@@ -33,7 +33,8 @@ function myReducer(state = initialState, action) {
       return Object.assign({}, state, {
         allPosts: state.allPosts
           .filter(p =>!(p.id === id))
-          .concat(Object.assign({}, oldPost, {voteScore: action.post.voteScore}))
+          .concat(Object.assign({}, oldPost, {voteScore: action.post.voteScore})),
+        currentPost: Object.assign({}, action.post, {voteScore: action.post.voteScore})
       })
     case VOTE_COMMENT:
       return Object.assign({}, state, {
