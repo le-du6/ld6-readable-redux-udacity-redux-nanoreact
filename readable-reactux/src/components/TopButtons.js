@@ -28,7 +28,9 @@ class TopButtons extends Component {
              />&nbsp;Votes </Button>
       </ButtonGroup>
       <div className="ml-auto">
-        <Button outline color="primary">
+        <Button
+          onClick={this.props._toggle}
+          outline color="primary">
           <FaPlus />&nbsp;Add Post
         </Button>
       </div>
