@@ -7,8 +7,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { createStore, applyMiddleware, compose } from 'redux'
 import myReducer from './reducers/reducers'
 import { Provider } from 'react-redux'
-// import './css/sketchy.bootstrap.min.css'
-// import './css/slate.bootstrap.min.css'
 import './css/bootstrap.min.css'
 // import './css/flatly.bootstrap.min.css'
 

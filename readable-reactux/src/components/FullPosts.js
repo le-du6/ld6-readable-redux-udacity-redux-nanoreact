@@ -133,7 +133,7 @@ class FullPosts extends Component {
         <div>
           <div>{title}</div>
           <span>
-            <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span className="text-white">{new Date(timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
+            <small className="text-muted"> by <strong className="text-info">{author} </strong>on <span>{new Date(timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
           </span>
         </div>
         <div className="text-info ml-auto mr-5">

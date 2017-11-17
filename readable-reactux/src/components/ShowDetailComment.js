@@ -100,7 +100,7 @@ render() {
               <div>
                 <div>{comment.body}</div>
                 <span>
-                  <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span className="text-white">{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
+                  <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span>{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
                 </span>
               </div>
             </div>
@@ -119,7 +119,7 @@ render() {
         <div>
           <div>{comment.body}</div>
           <span>
-            <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span className="text-white">{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
+            <small className="text-muted"> by <strong className="text-info">{comment.author} </strong>on <span>{new Date(comment.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
           </span>
         </div>
         <div className="text-info ml-auto mr-5">
