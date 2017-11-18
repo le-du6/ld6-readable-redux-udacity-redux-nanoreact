@@ -33,12 +33,23 @@ fetch(`${api}/posts/${postId}/comments`, { headers })
   .then(res => res.json())
   .then(data => data)
 
+export const putPost = (postId, newPost) =>
+  fetch(`${api}/posts/${postId}`, {
+    method: 'PUT',
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newPost)
+  }).then(res => res.json())
+    .then(data => data)
+
 export const postPost = (newPost) =>
   fetch(`${api}/posts`, {
     method: 'POST',
     headers: {
-      ...headers,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...headers
     },
     body: JSON.stringify(newPost)
   }).then(res => res.json())
@@ -86,6 +97,15 @@ fetch(`${api}/comments/${commentId}`, {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify(updateComment)
+}).then(res => res.json())
+  .then(data => data)
+
+export const deletePost = (postId) =>
+fetch(`${api}/posts/${postId}`, {
+  method: 'DELETE',
+  headers: {
+    ...headers,
+  }
 }).then(res => res.json())
   .then(data => data)
 

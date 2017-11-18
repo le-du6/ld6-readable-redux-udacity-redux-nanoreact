@@ -11,6 +11,8 @@ import {
   VOTE_COMMENT,
   VOTE_POST,
   POST_NEW_POST,
+  PUT_POST,
+  DELETE_POST
 } from '../actions/actions'
 
 const initialState = {
@@ -22,6 +24,21 @@ const initialState = {
 
 function myReducer(state = initialState, action) {
   switch (action.type) {
+    case DELETE_POST:
+      const id_del = action.oldPost.id
+      return Object.assign({}, state, {
+        allPosts: state.allPosts
+        .filter(p =>!(p.id === id_del)),
+        currentPost: {}
+      })
+    case PUT_POST:
+      const id_put = action.newPost.id
+      return Object.assign({}, state, {
+        allPosts: state.allPosts
+        .filter(p =>!(p.id === id_put))
+        .concat(action.newPost),
+        currentPost: action.newPost
+      })
     case POST_NEW_POST:
       return Object.assign({}, state, {
         allPosts: state.allPosts.concat(action.newPost)

@@ -1,4 +1,4 @@
-import { getCategories, getPosts, getComments, getPostsId, postComment, putComment, delComment, voteComment, votePost, postPost } from "../utils/ReadAPI";
+import { getCategories, getPosts, getComments, getPostsId, postComment, putComment, delComment, voteComment, votePost, postPost, putPost, deletePost } from "../utils/ReadAPI";
 
 //  action types
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
@@ -12,8 +12,18 @@ export const DEL_COMMENT = 'DEL_COMMENT'
 export const VOTE_COMMENT = 'VOTE_COMMENT'
 export const VOTE_POST = 'VOTE_POST'
 export const POST_NEW_POST = 'POST_NEW_POST'
+export const PUT_POST = 'PUT_POST'
+export const DELETE_POST = 'DELETE_POST'
 
 //  action creators
+export const deleteAPost = oldPost => ({
+    type: DELETE_POST,
+    oldPost
+  })
+export const putNewPost = newPost => ({
+    type: PUT_POST,
+    newPost
+  })
 export const postNewPost = newPost => ({
     type: POST_NEW_POST,
     newPost
@@ -60,6 +70,18 @@ export const dVotePost = post => ({
   })
 
 //  action creators with THUNK middlware
+export const ac_delPost = (idPost) => dispatch => {
+  deletePost(idPost)
+    .then(res => {
+      dispatch(deleteAPost(res))
+    })
+}
+export const ac_putPost = (idPost, newPost) => dispatch => {
+  putPost(idPost, newPost)
+    .then(res => {
+      dispatch(putNewPost(res))
+    })
+}
 export const ac_postPost = (post) => dispatch => {
   postPost(post)
     .then(res => {

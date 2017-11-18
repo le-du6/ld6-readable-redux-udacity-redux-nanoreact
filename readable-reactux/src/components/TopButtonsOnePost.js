@@ -10,7 +10,7 @@ class TopButtonsOnePost extends Component {
     return (
     <div className="mb-2">
       <h3 className="my-3 invisible"><FaNewspaperO className="mr-2" />Invisible</h3>
-      <div className="d-flex justify-content-start">
+      <div className="d-flex justify-content-end">
       <ButtonGroup>
         <Button
           onClick={() => this.props.history.goBack()}

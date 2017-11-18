@@ -13,6 +13,8 @@ import { ShowDetailPost } from './ShowDetailPost';
 import ShowDetailComment from './ShowDetailComment';
 import shortid from 'shortid'
 import {
+  ac_delPost,
+  ac_putPost,
   ac_votePost,
   ac_voteComment,
   ac_postComment,
@@ -60,7 +62,7 @@ class OnePost extends Component {
       isModal: false,
       updatePost: {
         title: '',
-        body: ''
+        body: '',
       },
       newComment: {
         timestamp: 0,
@@ -76,11 +78,24 @@ class OnePost extends Component {
     this._toggle = this._toggle.bind(this)
     this._onUpdateComment = this._onUpdateComment.bind(this)
     this._onUpdatePost = this._onUpdatePost.bind(this)
+    this._onDeletePost = this._onDeletePost.bind(this);
+  }
+  _onDeletePost(id) {
+    this.props.ac_delPost(id)
+    this.props.history.push(`/${this.props.match.params.category}`)
+    // this.setState({
+    //   isModal: !this.state.isModal
+    // }, () => {})
   }
   _onUpdatePost(field) {
+    const [a, b] = [...Object.entries(field)[0]]
+    console.log('_onUpdatePost: ', a, b)
     this.setState({
-      updatePost: !this.state.isModal
-    }, () => {})
+      updatePost: {[a]: b}
+    }, () => {
+      console.log('from OnePost: ', this.state.updatePost)
+      this.props.ac_putPost(this.props.match.params.post_id, this.state.updatePost)
+      })
   }
   _toggle() {
     this.setState({
@@ -132,7 +147,13 @@ class OnePost extends Component {
       <TopButtonsOnePost { ...{history} }/>
       {((currentPost===undefined) || currentPost.error)
         ? <div>This post doesn't exist</div>
-        : <ShowDetailPost ac_votePost={ac_votePost} {...this.props} nbComment={nbComment}/>}
+        : <ShowDetailPost
+            _onDeletePost={this._onDeletePost}
+            _onUpdatePost={this._onUpdatePost}
+            ac_votePost={ac_votePost}
+            nbComment={nbComment}
+            {...this.props}
+            />}
       <TopButtonsPost loadModal={this._toggle}/>
       <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
           <ModalHeader toggle={this._toggle}>Write a new Comment</ModalHeader>
@@ -181,6 +202,8 @@ function mapDispatchToProps(dispatch) {
     ac_postComment: (idPost, comment) => dispatch(ac_postComment(idPost, comment)),
     ac_voteComment: (idPost, commentId, vote) => dispatch(ac_voteComment(idPost, commentId, vote)),
     ac_votePost: (idPost, vote) => dispatch(ac_votePost(idPost, vote)),
+    ac_putPost: (idPost, newPost) => dispatch(ac_putPost(idPost, newPost)),
+    ac_delPost: (idPost) => dispatch(ac_delPost(idPost)),
   }
 }
 const mapStateToProps = (state, props) => ({
