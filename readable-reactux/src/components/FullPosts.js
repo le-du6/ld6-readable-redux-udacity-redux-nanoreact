@@ -10,7 +10,7 @@ import TopButtons from "./TopButtons"
 import shortid from 'shortid'
 import sortBy from 'sort-by'
 
-import { ac_votePost, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
+import { ac_postPost, ac_votePost, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
 
 const schema = {
   type: "object",
@@ -41,9 +41,11 @@ const schema = {
 };
 
 const uiSchema = {
+  title: {
+    "ui:autofocus": true,
+  },
   body: {
     'ui:widget': "textarea",
-    "ui:autofocus": true,
   },
 };
 
@@ -60,12 +62,14 @@ class FullPosts extends Component {
         author: "",
         date: new Date().toLocaleDateString().split('/').reverse().join('-'),
         id: shortid.generate(),
-        category: this.props.match.params.cat || "rien",
+        category: this.props.match.params.cat || "none",
       }
     }
     this._toggle = this._toggle.bind(this)
     this._toggleDate = this._toggleDate.bind(this)
-    this._toggleVote = this._toggleVote.bind(this);
+    this._toggleVote = this._toggleVote.bind(this)
+    this._onUpdatePost = this._onUpdatePost.bind(this)
+    this._postPost = this._postPost.bind(this)
   }
   componentWillMount () {
     this.props.fetchAllPosts()
@@ -86,6 +90,28 @@ class FullPosts extends Component {
     (cS[0].includes('timestamp')) ?  cS = cS.reverse() : null;
     (cS[0].includes('-')) ?  cS[0] = cS[0].slice(1) : cS[0] = '-' + cS[0];
     this.setState({currentSort: [...cS] }, () => localStorage['readable-sort'] = [...cS].join(','));
+  }
+  _onUpdatePost(x) {
+    this.setState({
+      newPost: Object.assign({}, x.formData, {timestamp: Date.parse(x.formData.date)} )
+    }, () => console.log(this.state.newPost));
+  }
+  _postPost(){
+    this.setState({
+        newPost: Object.assign({}, this.state.newPost, { timestamp: Date.parse(this.state.newPost.date)})
+      }, () => {
+          console.log(JSON.stringify(this.state.newPost))
+          this.props.ac_postPost(this.state.newPost)
+          this.setState({newPost: {
+            timestamp: 0,
+            title: "",
+            body: "",
+            author: "",
+            date: new Date().toLocaleDateString().split('/').reverse().join('-'),
+            id: shortid.generate(),
+            category: this.props.match.params.cat || "none",
+          }}, () => this.setState({isModal: false}))
+    })
   }
   render() {
     const {_toggleDate, _toggleVote, _toggle} = this;
@@ -171,6 +197,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchAllPosts: () => dispatch(fetchAllPosts()),
     ac_votePost: (idPost, vote) => dispatch(ac_votePost(idPost, vote)),
+    ac_postPost: (post) => dispatch(ac_postPost(post)),
   }
 }
 const mapStateToProps = (state, props) => ({

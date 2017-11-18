@@ -10,6 +10,7 @@ import {
   DEL_COMMENT,
   VOTE_COMMENT,
   VOTE_POST,
+  POST_NEW_POST,
 } from '../actions/actions'
 
 const initialState = {
@@ -21,6 +22,10 @@ const initialState = {
 
 function myReducer(state = initialState, action) {
   switch (action.type) {
+    case POST_NEW_POST:
+      return Object.assign({}, state, {
+        allPosts: state.allPosts.concat(action.newPost)
+      })
     case POST_NEW_COMMENT:
       return state
     case PUT_UPDATE_COMMENT:
