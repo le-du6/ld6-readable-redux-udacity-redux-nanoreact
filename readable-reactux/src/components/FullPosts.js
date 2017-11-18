@@ -4,7 +4,7 @@ import { Route, Link } from "react-router-dom"
 import { Modal, ModalHeader, ModalBody, Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap"
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa"
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
-import AddCommentForm from "react-jsonschema-form";
+import AddPostForm from "react-jsonschema-form";
 import { getCategories } from "../utils/ReadAPI"
 import TopButtons from "./TopButtons"
 import shortid from 'shortid'
@@ -136,7 +136,7 @@ class FullPosts extends Component {
     <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
           <ModalHeader toggle={this._toggle}>Write a new Post</ModalHeader>
           <ModalBody>
-          <AddCommentForm
+          <AddPostForm
           schema={schema}
           formData={this.state.newPost}
           uiSchema={uiSchema}
@@ -153,7 +153,7 @@ class FullPosts extends Component {
                 onClick={this._toggle}
                 type="button">Cancel</Button>
             </div>
-          </AddCommentForm>
+          </AddPostForm>
           </ModalBody>
       </Modal>
     <ListGroup>

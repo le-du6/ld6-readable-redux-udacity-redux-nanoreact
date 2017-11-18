@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Row, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap";
 import { FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
 import { MdQuestionAnswer} from "react-icons/lib/md"
+import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek'
 
 const _options = { year: 'numeric', month: 'long', day: 'numeric'}
 const _Capitalize = (string="v") => string[0].toUpperCase() + string.slice(1)
+
+let reactRefs = {}
 
 export const ShowDetailPost = ({
   ac_votePost,
@@ -16,7 +19,20 @@ export const ShowDetailPost = ({
 <div className="d-flex flex-column">
 
   <div className="d-flex justify-content-between align-items-center flex-row">
-    <div>{title}</div>
+    <div>
+      <RIETextArea rows='1' cols="40"
+        ref={input => {reactRefs.title = input; console.log(reactRefs.title)}}
+        value={title}
+        change={x=>console.log('RIE change: ', x)}
+        propName='title'
+        validate={x=>{
+          console.log('RIE validate: ', x)
+          return true
+        }
+        }
+      />
+      {/* {title} */}
+    </div>
     <div className="text-info ml-auto mr-5">
       { (nbComment !== 0 && nbComment !== undefined ) ?
       <span>{nbComment}
@@ -34,7 +50,9 @@ export const ShowDetailPost = ({
     </div>
     <div>
       <ButtonGroup>
-        <Button outline size="sm" color="primary">
+        <Button
+          onClick={(e)=>{reactRefs.title.startEditing(); reactRefs.body.startEditing() }}
+          outline size="sm" color="primary">
           <FaEdit/>
         </Button>
         <Button outline size="sm" color="primary">
@@ -47,7 +65,19 @@ export const ShowDetailPost = ({
   <hr style={{ width: "100%", height: "1px", 'backgroundColor':"#DF691A" }}/>
 
   <div className="d-flex flex-column">
-    <div> {body} </div>
+    <div>
+      <RIETextArea rows='4' cols="80"
+        ref={input => {reactRefs.body = input; console.log(reactRefs.body)}}
+        value={body}
+        change={x=>console.log('RIE change: ', x)}
+        propName='body'
+        validate={x=>{
+          console.log('RIE validate: ', x)
+          return true
+        }
+        }
+      />
+    </div>
     <div className="d-flex flex-row">
         <small className="text-muted"> by
           <strong className="text-info"> {author} </strong> on

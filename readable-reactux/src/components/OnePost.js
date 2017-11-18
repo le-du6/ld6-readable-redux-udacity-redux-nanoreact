@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import TopButtonsOnePost from "./TopButtonsOnePost"
 
-
 import { Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
 import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
 import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
@@ -59,6 +58,10 @@ class OnePost extends Component {
     this.state = {
       isOpenForm: -1,
       isModal: false,
+      updatePost: {
+        title: '',
+        body: ''
+      },
       newComment: {
         timestamp: 0,
         author: "",
@@ -71,7 +74,13 @@ class OnePost extends Component {
     this._postComment = this._postComment.bind(this)
     this._changeIsOpenForm = this._changeIsOpenForm.bind(this)
     this._toggle = this._toggle.bind(this)
-    this._onUpdateComment = this._onUpdateComment.bind(this);
+    this._onUpdateComment = this._onUpdateComment.bind(this)
+    this._onUpdatePost = this._onUpdatePost.bind(this)
+  }
+  _onUpdatePost(field) {
+    this.setState({
+      updatePost: !this.state.isModal
+    }, () => {})
   }
   _toggle() {
     this.setState({

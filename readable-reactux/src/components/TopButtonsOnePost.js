@@ -14,7 +14,7 @@ class TopButtonsOnePost extends Component {
       <ButtonGroup>
         <Button
           onClick={() => this.props.history.goBack()}
-          outline color="primary"><FaArrowLeft />&nbsp;Go Back</Button>
+          outline color="primary"><FaArrowLeft />&nbsp;Back</Button>
       </ButtonGroup>
       </div>
     </div>
