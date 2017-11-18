@@ -29,13 +29,14 @@ const schema = {
       type: "string",
     },
     date: {
-      title: "Date",
+      title: "Date ",
       "type": "string",
       "format": "date",
     },
     category: {
-      title: "Pick a category",
+      title: "Pick a category ",
       "type": "string",
+      "enum": []
     },
   }
 };
@@ -118,6 +119,11 @@ class FullPosts extends Component {
     const _options = { year: 'numeric', month: 'long', day: 'numeric'}
     const _Capitalize = (string="true") => string[0].toUpperCase() + string.slice(1)
     const _category = this.props.match.params.cat
+
+    const allCat = this.props.allCategories || []
+    console.log(allCat)
+    schema.properties.category.enum = allCat.map(c=>c.name)
+
     const displayPosts = this.props.allPosts
     .filter(post => (_category) ? (post.category === _category) : true)
     .sort(sortBy(...this.state.currentSort))
@@ -131,7 +137,6 @@ class FullPosts extends Component {
           <ModalHeader toggle={this._toggle}>Write a new Post</ModalHeader>
           <ModalBody>
           <AddCommentForm
-          className=""
           schema={schema}
           formData={this.state.newPost}
           uiSchema={uiSchema}
@@ -153,7 +158,7 @@ class FullPosts extends Component {
       </Modal>
     <ListGroup>
       {displayPosts
-        .map( ({id, timestamp, title, author, category, voteScore, nbComment}, index) =>
+        .map( ({id, timestamp, title, author, category, voteScore, nbComment=0}, index) =>
       <ListGroupItem onClick={() => this.props.history.push(`/${category}/${id}`)}
         key={index} action className="justify-content-between py-1 mb-2">
         <div>
@@ -201,6 +206,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 const mapStateToProps = (state, props) => ({
-  allPosts: state.allPosts
+  allPosts: state.allPosts,
+  allCategories: state.allCategoriesWP
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FullPosts);

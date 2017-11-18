@@ -64,6 +64,18 @@ export const ac_postPost = (post) => dispatch => {
   postPost(post)
     .then(res => {
       dispatch(postNewPost(res))
+      getCategories()
+      .then(categories =>
+        getPosts()
+          .then(posts => {
+            // adding count property to Categories
+            let categoriesWP = categories.map(cat=>Object.assign({}, cat, {nbPost: 0}));
+            // count how many CAT regarding each POST
+            posts.forEach(p=>categoriesWP.filter(cat=>cat.name===p.category).map(e=>e.nbPost++));
+            // dispatch the new categories Array
+            return dispatch(getAllCategoriesWPosts(categoriesWP))
+          })
+      )
     })
 }
 export const ac_votePost = (idPost, vote) => dispatch => {
