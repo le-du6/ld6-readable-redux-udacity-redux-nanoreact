@@ -51,7 +51,7 @@ class FullPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentSort: localStorage['readable-sort'].split(',') || ['-timestamp', '-voteScore'],
+      currentSort: (localStorage['readable-sort']) ? localStorage['readable-sort'].split(',') : ['-timestamp', '-voteScore'],
       isModal: false,
       newPost: {
         timestamp: 0,
@@ -93,13 +93,13 @@ class FullPosts extends Component {
   _onUpdatePost(x) {
     this.setState({
       newPost: Object.assign({}, x.formData, {timestamp: Date.parse(x.formData.date)} )
-    }, () => console.log(this.state.newPost));
+    });
   }
   _postPost(){
     this.setState({
         newPost: Object.assign({}, this.state.newPost, { timestamp: Date.parse(this.state.newPost.date)})
       }, () => {
-          console.log(JSON.stringify(this.state.newPost))
+          // console.log(JSON.stringify(this.state.newPost))
           this.props.ac_postPost(this.state.newPost)
           this.setState({newPost: {
             timestamp: 0,
@@ -126,7 +126,34 @@ class FullPosts extends Component {
     .sort(sortBy(...this.state.currentSort))
 
     return (
-    (displayPosts.length===0) ? <div className="my-5"><h2>&nbsp;</h2><h3 className="my-4">No more Post to display!</h3></div>
+    (displayPosts.length===0) ? (
+      <div>
+        <TopButtons {...{_toggleDate, _toggleVote, _toggle}} cS={this.state.currentSort}/>
+        <h3 className="my-4">No more Post to display!</h3>
+        <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
+          <ModalHeader toggle={this._toggle}>Write a new Post</ModalHeader>
+          <ModalBody>
+          <AddPostForm
+          schema={schema}
+          formData={this.state.newPost}
+          uiSchema={uiSchema}
+          onChange={this._onUpdatePost}
+          onSubmit={this._postPost}
+          onError={() => console.log("errors")}
+          autocomplete="off">
+            <div className="d-flex justify-content-end">
+              <Button
+                onSubmit={this._postPost}
+                color="primary"
+                type="submit">Add</Button>
+              <Button
+                onClick={this._toggle}
+                type="button">Cancel</Button>
+            </div>
+          </AddPostForm>
+          </ModalBody>
+      </Modal>
+      </div>)
       :
     <div>
     <TopButtons {...{_toggleDate, _toggleVote, _toggle}} cS={this.state.currentSort}/>

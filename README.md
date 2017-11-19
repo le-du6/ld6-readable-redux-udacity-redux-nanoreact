@@ -38,6 +38,12 @@ Server listening on port 3001, Ctrl+C to stop
 
 ## Step 2 - Starting the Front-End (React/Redux)
 
+Open an other shell (terminal) and go back to the initial directory:
+
+``` shell
+ld6-readable-redux-udacity-redux-nanoreact
+ ```
+
 Go inside the React-Redux app:
  ``` shell
  cd readable-reactux

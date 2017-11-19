@@ -110,10 +110,8 @@ class OnePost extends Component {
     }, () => console.log(this.state.newComment));
   }
   componentDidMount () {
-    console.log('OnePost mounted')
     this.props.fetchCurrentPost(this.props.match.params.post_id)
     this.props.fetchComments(this.props.match.params.post_id)
-    console.log('OnePost mounted and launched fetchs')
   }
   _postComment(){
     this.setState({
