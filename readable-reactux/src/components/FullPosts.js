@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route, Link } from "react-router-dom"
-import { Modal, ModalHeader, ModalBody, Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap"
-import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa"
-import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
+import { Modal, ModalHeader, ModalBody, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap"
+import { FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa"
+import { MdQuestionAnswer} from "react-icons/lib/md"
 import AddPostForm from "react-jsonschema-form";
-import { getCategories } from "../utils/ReadAPI"
 import TopButtons from "./TopButtons"
 import shortid from 'shortid'
 import sortBy from 'sort-by'
-
-import { ac_postPost, ac_votePost, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
+import { ac_postPost, ac_votePost, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
 
 const schema = {
   type: "object",
@@ -83,7 +80,7 @@ class FullPosts extends Component {
   }
   _toggleDate() {
     let cS = [...this.state.currentSort];
-    (cS[0].includes('voteScore')) ?  cS = cS.reverse() : null;
+    (cS[0].includes('voteScore')) ?  cS = cS.reverse() : null ;
     (cS[0].includes('-')) ?  cS[0] = cS[0].slice(1) : cS[0] = '-' + cS[0];
     this.setState({currentSort: [...cS] }, () => localStorage['readable-sort'] = [...cS].join(','));
   }
@@ -122,7 +119,6 @@ class FullPosts extends Component {
     const _category = this.props.match.params.cat
 
     const allCat = this.props.allCategories || []
-    console.log(allCat)
     schema.properties.category.enum = allCat.map(c=>c.name)
 
     const displayPosts = this.props.allPosts

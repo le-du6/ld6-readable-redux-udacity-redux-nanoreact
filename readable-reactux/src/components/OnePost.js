@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Link } from "react-router-dom";
 import { connect } from 'react-redux'
 import sortBy from 'sort-by'
 import TopButtonsOnePost from "./TopButtonsOnePost"
-
-import { Modal, ModalHeader, ModalBody, ModalFooter, Row, Col, ButtonGroup, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
-import { FaPlus, FaMinus, FaTrashO, FaEdit, FaRotateLeft, FaHeartO, FaNewspaperO, FaGlobe, FaCalendar } from "react-icons/lib/fa";
-import { MdMessage, MdRateReview , MdQuestionAnswer} from "react-icons/lib/md"
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, ListGroup } from "reactstrap";
 import AddCommentForm from "react-jsonschema-form";
 import TopButtonsPost from "./TopButtonsPost"
 import { ShowDetailPost } from './ShowDetailPost';
@@ -18,9 +14,6 @@ import {
   ac_votePost,
   ac_voteComment,
   ac_postComment,
-  fetchAllCategories,
-  fetchAllCategoriesWPosts,
-  fetchAllPosts,
   fetchCurrentPost,
   fetchComments } from '../actions/actions'
 
@@ -50,8 +43,6 @@ const uiSchema = {
     "ui:autofocus": true,
   },
 };
-
-const JCAB = "d-flex justify-content-between align-items-center"
 
 class OnePost extends Component {
   constructor(props) {
