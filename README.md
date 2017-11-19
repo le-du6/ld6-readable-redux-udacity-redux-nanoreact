@@ -1,22 +1,65 @@
-# Readable API Server
+# BLD-Readable-Reactux
+Readable - Project n°2 "A React/Redux Blog/Posts" from Udacity Nanodegree 2017 "Udacity React"
 
-This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+This application is a React/Redux Blog/Posts
 
-This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
+## Install
+Clone this repo to your computer with the command:
+ ``` shell
+ git clone https://github.com/le-du6/ld6-readable-redux-udacity-redux-nanoreact.git
+ ```
 
-## Start Developing
+Go inside the cloning directory:
+ ``` shell
+ cd ld6-readable-redux-udacity-redux-nanoreact
+ ```
 
-To get started developing right away:
+## Step 1 - Starting the Back-End (Nodes/Express)
 
-* Install and start the API server
-    - `cd api-server`
-    - `npm install`
-    - `node server`
-* In another terminal window, use Create React App to scaffold out the front-end
-    - `create-react-app frontend`
-    - `cd frontend`
-    - `npm start`
+Go inside the React-Redux app:
+ ``` shell
+ cd api-server
+ ```
 
-## API Server
+ Then install the needed Node and Express modules with the command:
+ ``` shell
+ npm install
+ ```
 
-Information about the API server and how to use it can be found in its [README file](api-server/README.md).
+Don't forget to start Express with:
+ ``` shell
+ npm start
+ ```
+
+To work correctly with the Front-End readable-reactux, the Express Server should starting on port 3001 as:
+``` shell
+Server listening on port 3001, Ctrl+C to stop
+ ```
+
+## Step 2 - Starting the Front-End (React/Redux)
+
+Go inside the React-Redux app:
+ ``` shell
+ cd readable-reactux
+ ```
+
+Then install the needed Node modules with the command:
+ ``` shell
+ npm install
+ ```
+
+And finaly launch the app with:
+ ``` shell
+ npm start
+ ```
+
+## App, React and Redux Architecture
+> *The following choices were made regarding the types of React Components*
+
+To Navigates between Posts list and a Post detail page, just click on the left Menu or on the Post itself.
+
+To Edit a Post, directly click on the Title or Body text (inline editing).
+
+For the others operations: follow the icons!
+
+Happy bloging.

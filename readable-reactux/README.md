@@ -1,4 +1,4 @@
-# BLDM-Readable-Reactux
+# BLD-Readable-Reactux
 Readable - Project n°2 "A React/Redux Blog/Posts" from Udacity Nanodegree 2017 "Udacity React"
 
 This application is a React/Redux Blog/Posts
@@ -56,10 +56,10 @@ And finaly launch the app with:
 ## App, React and Redux Architecture
 > *The following choices were made regarding the types of React Components*
 
-To Navigates between Post lidt and Posts detail pages, just click on the left Menu or on the listed Posts themself.
+To Navigates between Posts list and a Post detail page, just click on the left Menu or on the Post itself.
 
 To Edit a Post, directly click on the Title or Body text (inline editing).
 
-For the others operations: folow the icons!
+For the others operations: follow the icons!
 
 Happy bloging.
