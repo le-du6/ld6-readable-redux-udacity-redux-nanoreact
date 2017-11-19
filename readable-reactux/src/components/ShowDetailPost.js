@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Row, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap";
-import { FaSpinner, FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
+import React from 'react';
+import { Modal, ModalHeader, ModalFooter, ButtonGroup, Button } from "reactstrap";
+import { FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
 import { MdQuestionAnswer} from "react-icons/lib/md"
-import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek'
+import { RIETextArea } from 'riek'
 
 const _options = { year: 'numeric', month: 'long', day: 'numeric'}
 const _Capitalize = (string="v") => string[0].toUpperCase() + string.slice(1)
