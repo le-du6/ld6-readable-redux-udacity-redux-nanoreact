@@ -1,4 +1,4 @@
-# BLDMyReadsUdacityReact
+# BLDM-Readable-Reactux
 Readable - Project n°2 "A React/Redux Blog/Posts" from Udacity Nanodegree 2017 "Udacity React"
 
 This application is a React/Redux Blog/Posts
