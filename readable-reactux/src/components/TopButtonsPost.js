@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, ButtonGroup } from "reactstrap";
-import { FaNewspaperO, FaCalendar, FaPlus } from "react-icons/lib/fa";
+import { FaPlus } from "react-icons/lib/fa";
 
 class TopButtonsPost extends Component {
   render() {

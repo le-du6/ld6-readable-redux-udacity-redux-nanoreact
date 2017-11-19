@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { Button, ButtonGroup } from "reactstrap"
-import { FaSortAmountAsc, FaSortAmountDesc, FaNewspaperO, FaHeart, FaCalendar, FaPlus } from "react-icons/lib/fa"
-
+import { FaSortAmountAsc, FaNewspaperO, FaPlus } from "react-icons/lib/fa"
 
 class TopButtons extends Component {
   render() {

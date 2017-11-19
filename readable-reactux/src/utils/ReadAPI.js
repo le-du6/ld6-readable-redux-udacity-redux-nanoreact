@@ -1,5 +1,4 @@
 // Readable fetchs API
-console.log("Readable from fetchs API")
 const api = "http://localhost:3001"
 
 

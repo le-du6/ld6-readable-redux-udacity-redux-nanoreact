@@ -8,18 +8,17 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import myReducer from './reducers/reducers'
 import { Provider } from 'react-redux'
 import './css/bootstrap.min.css'
-// import './css/flatly.bootstrap.min.css'
 
 import thunk from 'redux-thunk';
 
-const logger = store => next => action => {
-  console.group(action.type)
-  console.info('dispatching', action)
-  let result = next(action)
-  console.log('next state', store.getState())
-  console.groupEnd(action.type)
-  return result
-}
+// const logger = store => next => action => {
+//   console.group(action.type)
+//   console.info('dispatching', action)
+//   let result = next(action)
+//   console.log('next state', store.getState())
+//   console.groupEnd(action.type)
+//   return result
+// }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col, Button, Badge, ListGroup, ListGroupItem } from "reactstrap";
+import { Col, Button, ListGroup, ListGroupItem } from "reactstrap";
 import { FaNewspaperO, FaGlobe } from "react-icons/lib/fa";
-import { MdMessage, MdRateReview } from "react-icons/lib/md"
-import { Route, Link } from "react-router-dom";
-import { getCategories } from "../utils/ReadAPI";
-
+import { MdMessage } from "react-icons/lib/md"
+import { Link } from "react-router-dom";
 import { connect } from 'react-redux'
-import { pipo, fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
+import { fetchAllCategories, fetchAllCategoriesWPosts, fetchAllPosts } from '../actions/actions'
 
 const JCAB = "d-flex justify-content-between align-items-center"
 
@@ -20,7 +18,6 @@ const itemMenu = ({ name, path, nbPost }, location) => (
     className="justify-content-between">
       {name[0].toUpperCase() + name.slice(1)}<span className="ml-5 d-flex align-items-top">{nbPost}&nbsp;<MdMessage/></span>
   </ListGroupItem>)
-
 
 class Menu extends Component {
   constructor(props) {

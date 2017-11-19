@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { Button, ButtonGroup } from "reactstrap";
-import { FaNewspaperO, FaHeart, FaArrowLeft, FaPlus } from "react-icons/lib/fa";
+import { FaNewspaperO, FaArrowLeft } from "react-icons/lib/fa";
 
 class TopButtonsOnePost extends Component {
-  constructor(props) {
-    super(props)
-  }
   render() {
     return (
     <div className="mb-2">
