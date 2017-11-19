@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap";
-import { FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
+import { FaSpinner, FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
 import { MdQuestionAnswer} from "react-icons/lib/md"
 import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek'
 
@@ -10,10 +10,11 @@ const _Capitalize = (string="v") => string[0].toUpperCase() + string.slice(1)
 let reactRefs = {}
 
 export const ShowDetailPost = ({
-  _onDeletePost,
+  _toggleDel,
   _onUpdatePost,
   ac_votePost,
   history,
+  currentPost,
   currentPost: {id, timestamp, title, body, author, category, voteScore},
   nbComment = 0
   }) => (
@@ -24,12 +25,12 @@ export const ShowDetailPost = ({
       <div>
         <RIETextArea rows='1' cols="40"
           ref={input => {reactRefs.title = input; console.log(reactRefs.title)}}
-          value={title}
+          value={(title) ? title : 'fetching Posts'}
           change={x=>_onUpdatePost(x)}
           propName='title'
           element
           validate={x=>{
-            console.log('RIE validate: ', x)
+            // console.log('RIE validate: ', x)
             return true
           }
           }
@@ -62,12 +63,12 @@ export const ShowDetailPost = ({
     <div>
       <ButtonGroup>
         <Button
-          onClick={(e)=>{reactRefs.title.startEditing() }}
+          onClick={(e)=>{reactRefs.title.startEditing()}}
           outline size="sm" color="primary">
           <FaEdit/>
         </Button>
         <Button
-          onClick={()=>{_onDeletePost(id)}}
+          onClick={_toggleDel}
           outline size="sm" color="primary">
           <FaTrashO/>
         </Button>
@@ -79,16 +80,15 @@ export const ShowDetailPost = ({
 
   <RIETextArea rows='4' cols="80"
     ref={input => {reactRefs.body = input; console.log(reactRefs.body)}}
-    value={body}
+    value={(body) ? body : 'fetching Posts'}
     change={x=>_onUpdatePost(x)}
     propName='body'
     validate={x=>{
-      console.log('RIE validate: ', x)
+      // console.log('RIE validate: ', x)
       return true
     }
     }
   />
 
 </div>
-
 )

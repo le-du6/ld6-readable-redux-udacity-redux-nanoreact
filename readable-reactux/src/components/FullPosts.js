@@ -72,8 +72,9 @@ class FullPosts extends Component {
     this._onUpdatePost = this._onUpdatePost.bind(this)
     this._postPost = this._postPost.bind(this)
   }
-  componentWillMount () {
+  componentDidMount () {
     this.props.fetchAllPosts()
+    this.props.fetchAllCategoriesWPosts();
   }
   _toggle() {
     this.setState({
@@ -129,10 +130,11 @@ class FullPosts extends Component {
     .sort(sortBy(...this.state.currentSort))
 
     return (
-    (displayPosts.length===0) ? <h3>This Category doesn't exist!</h3>
+    (displayPosts.length===0) ? <div className="my-5"><h2>&nbsp;</h2><h3 className="my-4">No more Post to display!</h3></div>
       :
     <div>
     <TopButtons {...{_toggleDate, _toggleVote, _toggle}} cS={this.state.currentSort}/>
+
     <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
           <ModalHeader toggle={this._toggle}>Write a new Post</ModalHeader>
           <ModalBody>
@@ -156,6 +158,7 @@ class FullPosts extends Component {
           </AddPostForm>
           </ModalBody>
       </Modal>
+
     <ListGroup>
       {displayPosts
         .map( ({id, timestamp, title, author, category, voteScore, nbComment=0}, index) =>
@@ -203,6 +206,7 @@ function mapDispatchToProps(dispatch) {
     fetchAllPosts: () => dispatch(fetchAllPosts()),
     ac_votePost: (idPost, vote) => dispatch(ac_votePost(idPost, vote)),
     ac_postPost: (post) => dispatch(ac_postPost(post)),
+    fetchAllCategoriesWPosts: () => dispatch(fetchAllCategoriesWPosts()),
   }
 }
 const mapStateToProps = (state, props) => ({

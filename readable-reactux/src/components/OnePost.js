@@ -58,6 +58,7 @@ class OnePost extends Component {
     super(props);
     // console.log("from OnePost: ",props)
     this.state = {
+      onModalDelete: false,
       isOpenForm: -1,
       isModal: false,
       updatePost: {
@@ -78,14 +79,17 @@ class OnePost extends Component {
     this._toggle = this._toggle.bind(this)
     this._onUpdateComment = this._onUpdateComment.bind(this)
     this._onUpdatePost = this._onUpdatePost.bind(this)
-    this._onDeletePost = this._onDeletePost.bind(this);
+    this._onDeletePost = this._onDeletePost.bind(this)
+    this._toggleDel = this._toggleDel.bind(this)
+  }
+  _toggleDel() {
+    this.setState({
+      onModalDelete: !this.state.onModalDelete
+    }, () => {})
   }
   _onDeletePost(id) {
     this.props.ac_delPost(id)
     this.props.history.push(`/${this.props.match.params.category}`)
-    // this.setState({
-    //   isModal: !this.state.isModal
-    // }, () => {})
   }
   _onUpdatePost(field) {
     const [a, b] = [...Object.entries(field)[0]]
@@ -107,9 +111,11 @@ class OnePost extends Component {
       newComment: Object.assign({}, x.formData, {timestamp: Date.parse(x.formData.date)} )
     }, () => console.log(this.state.newComment));
   }
-  componentWillMount () {
+  componentDidMount () {
+    console.log('OnePost mounted')
     this.props.fetchCurrentPost(this.props.match.params.post_id)
     this.props.fetchComments(this.props.match.params.post_id)
+    console.log('OnePost mounted and launched fetchs')
   }
   _postComment(){
     this.setState({
@@ -144,17 +150,47 @@ class OnePost extends Component {
 
     return (
     <div>
+
       <TopButtonsOnePost { ...{history} }/>
+
       {((currentPost===undefined) || currentPost.error)
         ? <div>This post doesn't exist</div>
         : <ShowDetailPost
-            _onDeletePost={this._onDeletePost}
+            _toggleDel={this._toggleDel}
             _onUpdatePost={this._onUpdatePost}
             ac_votePost={ac_votePost}
             nbComment={nbComment}
             {...this.props}
             />}
+
+      <Modal
+        isOpen={this.state.onModalDelete}
+        toggle={this._toggleDel}
+        className="">
+          <ModalHeader
+            toggle={this._toggleDel}>Confirm to delete this Post</ModalHeader>
+          <ModalBody>
+            {/* <div className={`d-flex justify-content-between py-1 mb-2 ${(isOpen === index) ? 'bg-warning' : null}`}> */}
+              <div>
+                <div>{(currentPost) ? currentPost.title : 'Fetching Post'}</div>
+                {/* <span>
+                  <small className="text-muted"> by <strong className="text-info">{currentPost.author} </strong>on <span>{new Date(currentPost.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
+                </span> */}
+              </div>
+            {/* </div> */}
+            <hr/>
+            <div className="d-flex justify-content-center">
+              <Button disabled outline color="primary">This action is NOT reversible.</Button>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button autofocus color="primary" onClick={()=>this._onDeletePost(postId)}>Delete</Button>
+            <Button color="secondary" onClick={this._toggleDel}>Cancel</Button>
+          </ModalFooter>
+      </Modal>
+
       <TopButtonsPost loadModal={this._toggle}/>
+
       <Modal isOpen={this.state.isModal} toggle={this._toggle} className="">
           <ModalHeader toggle={this._toggle}>Write a new Comment</ModalHeader>
           <ModalBody>
@@ -179,6 +215,7 @@ class OnePost extends Component {
           </AddCommentForm>
           </ModalBody>
       </Modal>
+
       <ListGroup className="offset-2">
         {comments
           .sort(sortBy('-timestamp', 'body'))
