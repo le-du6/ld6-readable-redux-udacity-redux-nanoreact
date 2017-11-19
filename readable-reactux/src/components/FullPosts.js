@@ -189,8 +189,12 @@ class FullPosts extends Component {
         </div>
         <div>
           <ButtonGroup>
-            <Button outline size="sm" color="primary" > <FaEdit/></Button>
-            <Button outline size="sm" color="primary" > <FaTrashO/></Button>
+            <Button
+              onClick={(e)=>{e.stopPropagation(); this.props.history.push(`/${category}/${id}/edit`) }}
+              outline size="sm" color="primary" > <FaEdit/></Button>
+            <Button
+              onClick={(e)=>{e.stopPropagation(); this.props.history.push(`/${category}/${id}/delete`) }}
+              outline size="sm" color="primary" > <FaTrashO/></Button>
           </ButtonGroup>
         </div>
       </ListGroupItem>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Row, ButtonGroup, Button, ListGroup, ListGroupItem } from "reactstrap";
 import { FaSpinner, FaPlus, FaMinus, FaTrashO, FaEdit } from "react-icons/lib/fa";
 import { MdQuestionAnswer} from "react-icons/lib/md"
 import { RIEToggle, RIEInput, RIETextArea, RIENumber, RIETags, RIESelect } from 'riek'
@@ -10,6 +10,8 @@ const _Capitalize = (string="v") => string[0].toUpperCase() + string.slice(1)
 let reactRefs = {}
 
 export const ShowDetailPost = ({
+  _toggleModalDel,
+  onDemandEdit,
   _toggleDel,
   _onUpdatePost,
   ac_votePost,
@@ -19,21 +21,33 @@ export const ShowDetailPost = ({
   nbComment = 0
   }) => (
 
+<div>
+  <Modal
+    isOpen={onDemandEdit}
+    toggle={_toggleModalDel}
+    className="">
+      <ModalHeader>Click on Title or Body to edit the post</ModalHeader>
+      <ModalFooter>
+        <Button
+          autoFocus
+          color="primary"
+          onClick={() => { _toggleModalDel() }}>OK</Button>
+        <Button
+          color="secondary"
+          onClick={_toggleModalDel}>Cancel</Button>
+      </ModalFooter>
+  </Modal>
+
 <div className="d-flex flex-column mb-3">
   <div className="d-flex justify-content-between align-items-center flex-row">
     <div className="d-flex flex-column">
       <div>
         <RIETextArea rows='1' cols="40"
-          ref={input => {reactRefs.title = input; console.log(reactRefs.title)}}
+          ref={input => { reactRefs.title = input; }}
           value={(title) ? title : 'fetching Posts'}
           change={x=>_onUpdatePost(x)}
           propName='title'
-          element
-          validate={x=>{
-            // console.log('RIE validate: ', x)
-            return true
-          }
-          }
+          validate={x=>{ return true } }
         />
       </div>
       <div className="d-flex flex-row">
@@ -79,16 +93,13 @@ export const ShowDetailPost = ({
   <hr style={{ width: "100%", height: "1px", 'backgroundColor':"#DF691A" }}/>
 
   <RIETextArea rows='4' cols="80"
-    ref={input => {reactRefs.body = input; console.log(reactRefs.body)}}
+    ref={input => { reactRefs.body = input; }}
     value={(body) ? body : 'fetching Posts'}
     change={x=>_onUpdatePost(x)}
     propName='body'
-    validate={x=>{
-      // console.log('RIE validate: ', x)
-      return true
-    }
-    }
+    validate={x=>{ return true } }
   />
 
+</div>
 </div>
 )

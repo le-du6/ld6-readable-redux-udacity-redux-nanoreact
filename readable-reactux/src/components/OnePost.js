@@ -58,7 +58,8 @@ class OnePost extends Component {
     super(props);
     // console.log("from OnePost: ",props)
     this.state = {
-      onModalDelete: false,
+      onDemandEdit: (this.props.match.params.action === 'edit') || false,
+      onModalDelete: (this.props.match.params.action === 'delete') || false,
       isOpenForm: -1,
       isModal: false,
       updatePost: {
@@ -81,6 +82,12 @@ class OnePost extends Component {
     this._onUpdatePost = this._onUpdatePost.bind(this)
     this._onDeletePost = this._onDeletePost.bind(this)
     this._toggleDel = this._toggleDel.bind(this)
+    this._toggleModalDel = this._toggleModalDel.bind(this);
+  }
+  _toggleModalDel() {
+    this.setState({
+      onDemandEdit: false
+    }, () => {})
   }
   _toggleDel() {
     this.setState({
@@ -156,6 +163,8 @@ class OnePost extends Component {
       {((currentPost===undefined) || currentPost.error)
         ? <div>This post doesn't exist</div>
         : <ShowDetailPost
+            _toggleModalDel={this._toggleModalDel}
+            onDemandEdit={this.state.onDemandEdit}
             _toggleDel={this._toggleDel}
             _onUpdatePost={this._onUpdatePost}
             ac_votePost={ac_votePost}
@@ -170,21 +179,14 @@ class OnePost extends Component {
           <ModalHeader
             toggle={this._toggleDel}>Confirm to delete this Post</ModalHeader>
           <ModalBody>
-            {/* <div className={`d-flex justify-content-between py-1 mb-2 ${(isOpen === index) ? 'bg-warning' : null}`}> */}
-              <div>
                 <div>{(currentPost) ? currentPost.title : 'Fetching Post'}</div>
-                {/* <span>
-                  <small className="text-muted"> by <strong className="text-info">{currentPost.author} </strong>on <span>{new Date(currentPost.timestamp).toLocaleDateString('en-US', _options)}</span> in <span className="text-primary">{_Capitalize(category)}</span></small>
-                </span> */}
-              </div>
-            {/* </div> */}
             <hr/>
             <div className="d-flex justify-content-center">
               <Button disabled outline color="primary">This action is NOT reversible.</Button>
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button autofocus color="primary" onClick={()=>this._onDeletePost(postId)}>Delete</Button>
+            <Button autoFocus color="primary" onClick={()=>this._onDeletePost(postId)}>Delete</Button>
             <Button color="secondary" onClick={this._toggleDel}>Cancel</Button>
           </ModalFooter>
       </Modal>

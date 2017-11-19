@@ -33,8 +33,9 @@ const schema = {
 
 const uiSchema = {
   body: {
+    "ui:autofocus": true,
     'ui:widget': "textarea",
-  },
+  }
 };
 
 const _options = { year: 'numeric', month: 'long', day: 'numeric'}

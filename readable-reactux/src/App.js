@@ -31,6 +31,7 @@ class App extends Component {
             <Route exact path="/" component={FullPosts}/>
             <Route exact path="/:cat" component={FullPosts}/>
             <Route exact path="/:category/:post_id" component={OnePost}/>
+            <Route exact path="/:category/:post_id/:action" component={OnePost}/>
           </Col>
         </Row>
       </div>
