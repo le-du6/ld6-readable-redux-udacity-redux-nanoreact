@@ -9,6 +9,8 @@ import { ShowDetailPost } from './ShowDetailPost';
 import ShowDetailComment from './ShowDetailComment';
 import shortid from 'shortid'
 import {
+  ac_updateComment,
+  ac_deleteComment,
   ac_delPost,
   ac_putPost,
   ac_votePost,
@@ -86,16 +88,19 @@ class OnePost extends Component {
     }, () => {})
   }
   _onDeletePost(id) {
+    this.props.comments.forEach(comment => {
+      this.props.ac_deleteComment(comment.id, id)
+    });
     this.props.ac_delPost(id)
     this.props.history.push(`/${this.props.match.params.category}`)
   }
   _onUpdatePost(field) {
     const [a, b] = [...Object.entries(field)[0]]
-    console.log('_onUpdatePost: ', a, b)
+    // console.log('_onUpdatePost: ', a, b)
     this.setState({
       updatePost: {[a]: b}
     }, () => {
-      console.log('from OnePost: ', this.state.updatePost)
+      // console.log('from OnePost: ', this.state.updatePost)
       this.props.ac_putPost(this.props.match.params.post_id, this.state.updatePost)
       })
   }
@@ -117,7 +122,7 @@ class OnePost extends Component {
     this.setState({
         newComment: Object.assign({}, this.state.newComment, { timestamp: Date.parse(this.state.newComment.date)})
       }, () => {
-          console.log(JSON.stringify(this.state.newComment))
+          // console.log(JSON.stringify(this.state.newComment))
           this.props.ac_postComment(this.props.match.params.post_id, this.state.newComment)
           this.setState({newComment: {
             timestamp: 0,
@@ -137,6 +142,7 @@ class OnePost extends Component {
   render() {
     const postId = this.props.match.params.post_id
     const currentPost = this.props.currentPost
+    // console.log((currentPost==={}))
     const category = this.props.match.params.category
     const comments = this.props.comments || []
     const nbComment = comments.length || 0
@@ -149,8 +155,8 @@ class OnePost extends Component {
 
       <TopButtonsOnePost { ...{history} }/>
 
-      {((currentPost===undefined) || currentPost.error)
-        ? <div>This post doesn't exist</div>
+      {(( currentPost === undefined ) || (Object.keys(currentPost).length === 0 && currentPost.constructor === Object) || currentPost.error)
+        ? <div><h2>Hoops! 404 => This post doesn't exist</h2></div>
         : <ShowDetailPost
             _toggleModalDel={this._toggleModalDel}
             onDemandEdit={this.state.onDemandEdit}
@@ -232,6 +238,8 @@ function mapDispatchToProps(dispatch) {
     ac_votePost: (idPost, vote) => dispatch(ac_votePost(idPost, vote)),
     ac_putPost: (idPost, newPost) => dispatch(ac_putPost(idPost, newPost)),
     ac_delPost: (idPost) => dispatch(ac_delPost(idPost)),
+    ac_updateComment: (idC, comment, idPost) => dispatch(ac_updateComment(idC, comment, idPost)),
+    ac_deleteComment: (idC, idPost) => dispatch(ac_deleteComment(idC, idPost)),
   }
 }
 const mapStateToProps = (state, props) => ({

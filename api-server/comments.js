@@ -197,6 +197,7 @@ function disableByParent (token, post) {
         let comments = getData(token)
         keys = Object.keys(comments)
         filtered_keys = keys.filter(key => comments[key].parentId === post.id)
+        // console.log(filtered_keys)
         filtered_keys.forEach(key => comments[key].parentDeleted = true)
         res(post)
     })

@@ -28,7 +28,7 @@ function myReducer(state = initialState, action) {
       return Object.assign({}, state, {
         allPosts: state.allPosts
         .filter(p =>!(p.id === id_del)),
-        currentPost: {}
+        currentPost: {},
       })
     case PUT_POST:
       const id_put = action.newPost.id
